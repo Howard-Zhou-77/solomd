@@ -532,11 +532,25 @@ button:disabled {
 :root .toolbar.toolbar--sheet .toolbar__more {
   margin-left: 0;
 }
-/* Windows caption buttons stretch to the bar's height by design; in a sheet
-   that turns them into a full-height column. Keep them one row tall. */
+/* Windows caption buttons. Two things go wrong in a wrapping sheet, both
+   confirmed on the real Win11 VM: they stretch to the sheet's full height
+   (`align-self: stretch` by design in the one-row bar), and — worse — they
+   wrap onto the LAST row, so a frameless window's min/max/close vanish from
+   the top-right corner exactly when the user opened a panel. Pin them back
+   into the corner and reserve that corner so row one can't slide under. */
+:root .toolbar.toolbar--sheet {
+  position: relative;
+}
 :root .toolbar.toolbar--sheet .win-controls {
+  position: absolute;
+  top: 0;
+  right: 0;
   align-self: flex-start;
   height: var(--titlebar-h);
+  margin-left: 0;
+}
+:root .toolbar.toolbar--sheet.toolbar--win {
+  padding-right: 142px;
 }
 /* The phone's tap targets stay bigger than the desktop sheet's. */
 :root.narrow-viewport .toolbar--phone-open .icon-btn,
