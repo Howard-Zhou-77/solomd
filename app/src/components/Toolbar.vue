@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
+import { computed, onBeforeUnmount, onMounted, onUpdated, ref } from 'vue';
 import Icon from './Icons.vue';
 import BrandMark from './BrandMark.vue';
 import PomodoroPopover from './PomodoroPopover.vue';
@@ -54,18 +54,48 @@ function tip(labelKey: string, actionId: string): string {
   const chord = shortcutLabel(actionId, settings.keybindings, macChord);
   return chord ? `${label} (${chord})` : label;
 }
-const phoneMoreOpen = ref(false);
-function togglePhoneMore(): void {
-  phoneMoreOpen.value = !phoneMoreOpen.value;
+const sheetOpen = ref(false);
+function toggleSheet(): void {
+  sheetOpen.value = !sheetOpen.value;
 }
-// Collapse after any action inside the sheet — on a phone the sheet covers
-// the document, and leaving it open after a click reads as "nothing happened".
+// Collapse after any action inside the sheet — the sheet covers the document,
+// and leaving it open after a click reads as "nothing happened".
 function onToolbarActivate(e: Event): void {
-  if (!phoneMoreOpen.value) return;
+  if (!sheetOpen.value) return;
   const el = e.target as HTMLElement | null;
   if (el?.closest('[data-phone-more]')) return;
-  if (el?.closest('button, [role="menuitem"], a')) phoneMoreOpen.value = false;
+  if (el?.closest('button, [role="menuitem"], a')) sheetOpen.value = false;
 }
+
+// #282 — "在显示器（分辨率)比较小的时候，顶部工具栏和菜单栏会显示不完全".
+//
+// The strip has scrolled horizontally since #134, so nothing was ever
+// unreachable — but a silently clipped row still reads as broken, and you
+// have to guess that it scrolls. So the same "more" control the phone layout
+// uses (#168) now appears on ANY window where the bar overflows, and opens
+// the same labelled sheet. Reusing that mechanism rather than building a
+// desktop-only overflow dropdown avoids the trap that killed the obvious
+// design: the strip's dropdown triggers anchor their teleported menus to
+// their own rect, so a button moved into an overflow menu — or scrolled off
+// screen — opens its menu somewhere the user isn't looking.
+const barOverflows = ref(false);
+function measureOverflow(): void {
+  const el = toolbarRef.value;
+  // While the sheet is open the bar wraps, so it never "overflows" — measuring
+  // then would hide the very button that closes it.
+  if (!el || sheetOpen.value) return;
+  // A scroll container reports scrollWidth === clientWidth whenever the
+  // content fits, so this one comparison is the whole test — an earlier
+  // attempt to add an explicit hysteresis band (`scrollWidth + 48 <=
+  // clientWidth`) could never be true and the button, once shown, never went
+  // away again. The hysteresis is already implicit and self-limiting: the
+  // button's own ~40px counts toward the overflow that keeps it on screen, so
+  // there's a 40px band where it lingers after the bar would fit without it,
+  // and removing it only ever frees space — it cannot oscillate.
+  barOverflows.value = el.scrollWidth > el.clientWidth + 1;
+}
+/** The phone layout always offers it; wider windows only when it's needed. */
+const showMore = computed(() => isNarrow.value || barOverflows.value);
 const workspace = useWorkspaceStore();
 const tiles = useTilesStore();
 const files = useFiles();
@@ -468,6 +498,21 @@ const menubarNames: MenubarName[] = ['file', 'edit', 'view', 'help'];
 // Root element — used by onScrollAnywhere to tell "a scroll that moves the
 // menu anchors" (toolbar's own overflow scroll) from pane scrolls.
 const toolbarRef = ref<HTMLElement | null>(null);
+let barResizeObserver: ResizeObserver | null = null;
+onMounted(() => {
+  measureOverflow();
+  if (typeof ResizeObserver === 'undefined' || !toolbarRef.value) return;
+  barResizeObserver = new ResizeObserver(() => measureOverflow());
+  barResizeObserver.observe(toolbarRef.value);
+});
+onBeforeUnmount(() => {
+  barResizeObserver?.disconnect();
+  barResizeObserver = null;
+});
+// The bar's *contents* change too — a markdown tab adds two groups, a locale
+// switch re-widths every label. ResizeObserver never fires for those, because
+// the strip scrolls instead of growing.
+onUpdated(() => measureOverflow());
 
 // ── Windows caption buttons (min / max / close) ─────────────────────────────
 const isMaximized = ref(false);
@@ -599,7 +644,8 @@ onBeforeUnmount(() => {
     :class="{
       'toolbar--mac': macTitleBar,
       'toolbar--win': winTitleBar,
-      'toolbar--phone-open': isNarrow && phoneMoreOpen,
+      'toolbar--phone-open': isNarrow && sheetOpen,
+      'toolbar--sheet': sheetOpen,
     }"
     @mousedown.capture="onTitleBarMouseDown"
     @dblclick="onTitleBarDblClick"
@@ -1018,6 +1064,22 @@ onBeforeUnmount(() => {
       </button>
     </div>
 
+    <!-- #168 / #282 — expand the strip into a labelled sheet. Always offered
+         on a phone; on wider windows only once the row actually overflows.
+         Rendered ahead of the Windows caption buttons so the two sticky
+         right-hand items don't land on top of each other. -->
+    <button
+      v-if="showMore"
+      class="icon-btn toolbar__more"
+      :class="{ active: sheetOpen, 'toolbar__more--pinned': !isNarrow }"
+      data-phone-primary
+      data-phone-more
+      :aria-expanded="sheetOpen"
+      :title="sheetOpen ? t('toolbar.phoneLess') : t('toolbar.phoneMore')"
+      @click="toggleSheet"
+    >
+      <span aria-hidden="true">{{ sheetOpen ? '✕' : '⋯' }}</span>
+    </button>
     <!-- Windows caption buttons. `position: sticky; right: 0` keeps them
          pinned even when the strip scrolls horizontally on narrow windows.
          The maximize button doubles as the Snap-Layouts target: on the real
@@ -1043,19 +1105,6 @@ onBeforeUnmount(() => {
         <svg width="10" height="10" viewBox="0 0 10 10"><path d="M0 0l10 10M10 0L0 10" stroke="currentColor" stroke-width="1" /></svg>
       </button>
     </div>
-    <!-- #168 — phone-only: expand the strip into a labelled sheet. -->
-    <button
-      v-if="isNarrow"
-      class="icon-btn toolbar__more"
-      data-phone-primary
-      data-phone-more
-      :class="{ active: phoneMoreOpen }"
-      :aria-expanded="phoneMoreOpen"
-      :title="phoneMoreOpen ? t('toolbar.phoneLess') : t('toolbar.phoneMore')"
-      @click="togglePhoneMore"
-    >
-      <span aria-hidden="true">{{ phoneMoreOpen ? '✕' : '⋯' }}</span>
-    </button>
   </div>
 </template>
 
@@ -1113,6 +1162,28 @@ onBeforeUnmount(() => {
   background: var(--bg-active);
   color: var(--text);
 }
+/* #282 — on a window too narrow for the whole strip, "more" stays pinned to
+   the right edge while the rest scrolls under it, so it can't itself be the
+   thing that scrolled out of reach. The fade tells you there IS more to the
+   left of it. On Windows it sits inboard of the three 46px caption buttons. */
+.toolbar__more--pinned {
+  position: sticky;
+  right: 0;
+  z-index: 2;
+  margin-left: auto;
+  background: var(--bg-elev);
+  box-shadow: -10px 0 10px -6px var(--bg-elev);
+}
+.toolbar--win .toolbar__more--pinned {
+  right: 138px;
+}
+/* Expanded, the bar wraps and nothing is scrolling, so un-pin it. */
+.toolbar--sheet .toolbar__more--pinned {
+  position: static;
+  margin-left: 0;
+  box-shadow: none;
+}
+
 .win-controls {
   display: flex;
   align-self: stretch;

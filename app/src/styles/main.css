@@ -454,8 +454,22 @@ button:disabled {
    Labels come from each button's own `title`, so they stay in step with the
    tooltips and need no second translation. It grows in flow rather than
    floating: an overlay would need a stacking context above the drawers and
-   the modals, and pushing the document down for a moment reads fine here. */
-:root.narrow-viewport .toolbar--phone-open {
+   the modals, and pushing the document down for a moment reads fine here.
+
+   #282 — this is no longer phone-only. Any window too narrow for the whole
+   strip gets the same sheet, which is what "工具栏显示不完全" actually needs:
+   the row stops being silently clipped and every control shows up with a
+   label. The phone keeps its own extra rules below (bigger tap targets, and
+   the folded state that hides all but a handful of buttons); the sheet
+   itself is shared.
+
+   The `:root` prefix is load-bearing, not decoration: Toolbar.vue's scoped
+   `.toolbar` compiles to `.toolbar[data-v-…]` (0,2,0) and is injected after
+   this file, so a bare `.toolbar--sheet` (0,1,0) loses `height` and
+   `overflow-y` to it — the bar wraps but stays clipped to one row's height,
+   which looks like the feature half-works. The phone rules above already win
+   the same fight via `:root.narrow-viewport`. */
+:root .toolbar.toolbar--sheet {
   height: auto;
   max-height: 55vh;
   overflow-y: auto;
@@ -467,38 +481,53 @@ button:disabled {
   gap: 4px;
   border-bottom-width: 2px;
 }
-:root.narrow-viewport .toolbar--phone-open .toolbar__group {
+:root .toolbar.toolbar--sheet .toolbar__group {
   flex-wrap: wrap;
   gap: 4px;
 }
-:root.narrow-viewport .toolbar--phone-open .toolbar__group > * {
+:root .toolbar.toolbar--sheet .toolbar__group > * {
   display: inline-flex;
 }
-:root.narrow-viewport .toolbar--phone-open .icon-btn {
+:root .toolbar.toolbar--sheet .icon-btn {
   flex-direction: column;
   gap: 2px;
-  min-width: 72px;
+  min-width: 84px;
   min-height: 56px;
   padding: 6px 4px !important;
 }
-:root.narrow-viewport .toolbar--phone-open .icon-btn::after {
+:root .toolbar.toolbar--sheet .icon-btn::after {
+  /* The title carries the shortcut too ("Save (Ctrl+S)"), so give it room. */
   content: attr(title);
   font-size: 10px;
   line-height: 1.1;
-  max-width: 68px;
+  max-width: 80px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   color: var(--text-muted);
 }
 /* The dropdown triggers keep their caret; don't let the label push it out. */
-:root.narrow-viewport .toolbar--phone-open .dropdown > .icon-btn {
-  min-width: 72px;
+:root .toolbar.toolbar--sheet .dropdown > .icon-btn {
+  min-width: 84px;
 }
 /* Folded, "more" sits at the far right of the strip; expanded, that same
    auto margin would strand it alone on its own row. */
-:root.narrow-viewport .toolbar--phone-open .toolbar__more {
+:root .toolbar.toolbar--sheet .toolbar__more {
   margin-left: 0;
+}
+/* Windows caption buttons stretch to the bar's height by design; in a sheet
+   that turns them into a full-height column. Keep them one row tall. */
+:root .toolbar.toolbar--sheet .win-controls {
+  align-self: flex-start;
+  height: var(--titlebar-h);
+}
+/* The phone's tap targets stay bigger than the desktop sheet's. */
+:root.narrow-viewport .toolbar--phone-open .icon-btn,
+:root.narrow-viewport .toolbar--phone-open .dropdown > .icon-btn {
+  min-width: 72px;
+}
+:root.narrow-viewport .toolbar--phone-open .icon-btn::after {
+  max-width: 68px;
 }
 
 /* Status bar: the full segment list wraps onto a second line at phone widths.
