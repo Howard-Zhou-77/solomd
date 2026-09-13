@@ -1713,7 +1713,12 @@ export const FileTreeNode = defineComponent({
 .ftree__filter-pop {
   position: absolute;
   top: 100%;
-  right: 0;
+  /* Anchored to the button's LEFT edge, not its right. The Explorer's header
+     buttons sit ~150px from the window edge, so a right-aligned 190px popover
+     hangs off-screen and every label loses its first characters — caught on
+     the Windows VM, and it would have looked identical on a narrow macOS
+     sidebar. Opening rightwards keeps it on screen at any sidebar width. */
+  left: 0;
   z-index: 40;
   min-width: 190px;
   max-height: 320px;
