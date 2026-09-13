@@ -705,6 +705,18 @@ function onSelectPdfFont(v: string) {
           <label>
             <input
               type="checkbox"
+              :checked="settings.distinctSplitPanes"
+              @change="settings.toggleDistinctSplitPanes()"
+            />
+            {{ t('settings.distinctSplitPanes') }}
+          </label>
+          <p class="setting-hint">{{ t('settings.distinctSplitPanesHint') }}</p>
+        </section>
+
+        <section data-cat="basics">
+          <label>
+            <input
+              type="checkbox"
               :checked="settings.markdownHardBreaks"
               @change="settings.toggleMarkdownHardBreaks()"
             />

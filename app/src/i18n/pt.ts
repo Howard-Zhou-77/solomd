@@ -258,6 +258,8 @@ export const pt: I18n = {
     explorerFullNamesHint: 'Quebra nomes longos na árvore lateral em vez de encurtá-los com reticências no meio.',
     explorerShowHidden: 'Mostrar arquivos ocultos',
     explorerShowHiddenHint: 'Lista arquivos e pastas que começam com ponto (.git, .obsidian, .gitignore) na árvore do explorador.',
+    distinctSplitPanes: 'Distinguir o editor da pré-visualização',
+    distinctSplitPanesHint: 'Na vista dividida, dá à pré-visualização um fundo ligeiramente diferente para os dois painéis não parecerem uma única coluna larga.',
     markdownHardBreaks: 'Renderizar quebras de linha simples como quebras',
     markdownHardBreaksHint: 'Como o Typora: um único Enter cria uma quebra de linha na pré-visualização e em todas as exportações. Desligado = Markdown estrito (quebras simples se fundem no parágrafo; use uma linha em branco para separar).',
     smartQuotes: 'Aspas tipográficas',

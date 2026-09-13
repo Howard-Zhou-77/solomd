@@ -256,6 +256,8 @@ export const pl: I18n = {
     explorerFullNamesHint: 'Zawija długie nazwy plików w drzewie bocznym zamiast skracać je wielokropkiem w środku.',
     explorerShowHidden: 'Pokaż ukryte pliki',
     explorerShowHiddenHint: 'Wyświetla pliki i foldery zaczynające się od kropki (.git, .obsidian, .gitignore) w drzewie plików.',
+    distinctSplitPanes: 'Odróżnij edytor od podglądu',
+    distinctSplitPanesHint: 'W widoku podzielonym nadaje podglądowi nieco inne tło, żeby oba panele nie wyglądały jak jedna szeroka kolumna.',
     markdownHardBreaks: 'Renderuj pojedyncze nowe linie jako łamanie wiersza',
     markdownHardBreaksHint: 'Jak w Typorze: jedno naciśnięcie Enter tworzy łamanie wiersza w podglądzie i wszystkich eksportach. Wyłączone = ścisły Markdown (pojedyncze nowe linie łączą się w akapit; pusty wiersz rozdziela).',
     smartQuotes: 'Cudzysłowy typograficzne',

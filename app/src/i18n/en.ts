@@ -256,6 +256,8 @@ export const en = {
     explorerFullNamesHint: 'Wraps long file names across lines in the sidebar tree instead of shortening them with a middle ellipsis.',
     explorerShowHidden: 'Show hidden files',
     explorerShowHiddenHint: 'Lists dot-files and dot-folders (.git, .obsidian, .gitignore) in the Explorer tree.',
+    distinctSplitPanes: 'Distinguish the editor and preview panes',
+    distinctSplitPanesHint: 'In split view, gives the preview a slightly different background so the two panes don’t read as one wide column.',
     markdownHardBreaks: 'Render single newlines as line breaks',
     markdownHardBreaksHint: 'Typora-like: pressing Enter once starts a new line in the preview and all exports. Off = strict Markdown (single newlines collapse into one paragraph; use a blank line to separate).',
     smartQuotes: 'Smart quotes',

@@ -257,6 +257,8 @@ export const zh: I18n = {
     explorerFullNamesHint: '侧边栏文件树中的长文件名换行完整显示,不再用省略号截断中段。',
     explorerShowHidden: '显示隐藏文件',
     explorerShowHiddenHint: '在文件树里列出以点开头的文件和文件夹（.git、.obsidian、.gitignore 等）。',
+    distinctSplitPanes: '区分编辑区与预览区',
+    distinctSplitPanesHint: '分栏时给预览区一个略微不同的底色，两边不再长得一模一样、连成一整片。',
     markdownHardBreaks: '单个换行渲染为换行',
     markdownHardBreaksHint: '与 Typora 一致:按一次回车,预览和所有导出都换行。关闭 = 严格 Markdown(单个换行并入同一段落,需空行分段)。',
     smartQuotes: '智能引号',

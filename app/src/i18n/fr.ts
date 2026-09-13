@@ -256,6 +256,8 @@ export const fr: I18n = {
     explorerFullNamesHint: 'Replie les noms de fichiers longs dans l’arborescence au lieu de les raccourcir par une ellipse centrale.',
     explorerShowHidden: 'Afficher les fichiers masqués',
     explorerShowHiddenHint: 'Affiche les fichiers et dossiers commençant par un point (.git, .obsidian, .gitignore) dans l’arborescence.',
+    distinctSplitPanes: 'Distinguer l’éditeur de l’aperçu',
+    distinctSplitPanesHint: 'En vue divisée, donne à l’aperçu un fond légèrement différent pour que les deux volets ne se lisent pas comme une seule colonne.',
     markdownHardBreaks: 'Rendre les sauts de ligne simples comme des retours',
     markdownHardBreaksHint: 'Comme Typora : une seule pression sur Entrée crée un retour à la ligne dans l\'aperçu et tous les exports. Désactivé = Markdown strict (les sauts simples fusionnent dans le paragraphe ; une ligne vide sépare).',
     smartQuotes: 'Guillemets typographiques',

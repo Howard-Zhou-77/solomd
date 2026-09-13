@@ -421,7 +421,16 @@ function onPreviewSearchEvent(e: Event) {
 </script>
 
 <template>
-  <div class="pane-content">
+  <!-- #279 — "现在都一样看着有点累": side by side, the two panes are the same
+       surface, so the split reads as one wide column. The opt-in class lifts
+       the preview a shade; it only applies when BOTH panes are on screen,
+       because there is nothing to tell apart otherwise. -->
+  <div
+    class="pane-content"
+    :class="{
+      'pane-content--distinct': settings.distinctSplitPanes && showEditor && showPreview,
+    }"
+  >
     <div class="pane pane--editor" v-if="showEditor && tab">
       <Editor
         :key="editorImplementationKey"

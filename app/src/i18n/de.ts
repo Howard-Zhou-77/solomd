@@ -256,6 +256,8 @@ export const de: I18n = {
     explorerFullNamesHint: 'Bricht lange Dateinamen im Seitenleistenbaum um, statt sie mit Auslassungspunkten in der Mitte zu kürzen.',
     explorerShowHidden: 'Versteckte Dateien anzeigen',
     explorerShowHiddenHint: 'Zeigt Dateien und Ordner mit führendem Punkt (.git, .obsidian, .gitignore) im Explorer-Baum.',
+    distinctSplitPanes: 'Editor- und Vorschaubereich unterscheiden',
+    distinctSplitPanesHint: 'Gibt der Vorschau in der geteilten Ansicht einen leicht anderen Hintergrund, damit die beiden Bereiche nicht wie eine einzige breite Spalte wirken.',
     markdownHardBreaks: 'Einzelne Zeilenumbrüche als Umbruch rendern',
     markdownHardBreaksHint: 'Wie Typora: Einmal Enter erzeugt in Vorschau und allen Exporten einen Zeilenumbruch. Aus = striktes Markdown (einzelne Umbrüche werden zu einem Absatz zusammengefasst; Leerzeile trennt Absätze).',
     smartQuotes: 'Typografische Anführungszeichen',

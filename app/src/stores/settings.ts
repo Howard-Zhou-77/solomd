@@ -292,6 +292,10 @@ interface Settings {
   // vault's `.git`, `.obsidian` and friends are noise for most people. On,
   // they're reachable from inside the app instead of only from Finder.
   explorerShowHidden: boolean;
+  // #279: in split view, tint the preview pane a shade apart from the editor
+  // so the two panels aren't identical surfaces. Off by default — it changes
+  // how the app looks, which is not something to do to everyone in a patch.
+  distinctSplitPanes: boolean;
   // #282: show only these file extensions in the Explorer tree (lower-case,
   // no dot; '' is the no-extension bucket). Empty = show everything. It
   // persists, so the tree carries a permanent banner whenever it is set —
@@ -594,6 +598,7 @@ function defaults(): Settings {
     explorerFullNames: false,
     explorerShowHidden: false,
     explorerExtFilter: [] as string[],
+    distinctSplitPanes: false,
     markdownHardBreaks: true,
     spellcheckLang: 'en_US',
     smartQuotes: false,
@@ -1273,6 +1278,10 @@ export const useSettingsStore = defineStore('settings', {
     },
     clearExplorerExtFilter() {
       this.explorerExtFilter = [];
+      this.persist();
+    },
+    toggleDistinctSplitPanes() {
+      this.distinctSplitPanes = !this.distinctSplitPanes;
       this.persist();
     },
     toggleMarkdownHardBreaks() {

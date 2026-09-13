@@ -256,6 +256,8 @@ export const es: I18n = {
     explorerFullNamesHint: 'Ajusta los nombres largos en el árbol lateral en lugar de acortarlos con puntos suspensivos en el medio.',
     explorerShowHidden: 'Mostrar archivos ocultos',
     explorerShowHiddenHint: 'Muestra archivos y carpetas que empiezan por punto (.git, .obsidian, .gitignore) en el árbol del explorador.',
+    distinctSplitPanes: 'Distinguir el editor de la vista previa',
+    distinctSplitPanesHint: 'En vista dividida, da a la vista previa un fondo algo distinto para que los dos paneles no parezcan una sola columna ancha.',
     markdownHardBreaks: 'Renderizar saltos de línea simples como saltos',
     markdownHardBreaksHint: 'Como Typora: una sola pulsación de Enter crea un salto de línea en la vista previa y todas las exportaciones. Desactivado = Markdown estricto (los saltos simples se funden en un párrafo; usa una línea en blanco para separar).',
     smartQuotes: 'Comillas tipográficas',

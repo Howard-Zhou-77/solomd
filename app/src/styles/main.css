@@ -99,6 +99,23 @@
   --statusbar-h: 24px;
 }
 
+/* #279 — the split view's preview surface, when "distinguish the two panes"
+   is on. Derived rather than hand-picked per theme: `var()` inside a custom
+   property resolves against whichever --bg / --text won the cascade, so this
+   one declaration follows all eight themes (and any future one) instead of
+   needing eight more constants that would drift. 6% toward the text colour is
+   the standard "clearly a different surface, still quiet" step — it darkens
+   on a light theme and lightens on a dark one, automatically. */
+:root {
+  --split-preview-bg: color-mix(in srgb, var(--bg) 94%, var(--text));
+}
+/* The `:root` prefix is what wins against Preview.vue's scoped `.preview-host`
+   (`.preview-host[data-v-...]`, 0,2,0, injected after this file) — same trap
+   as the toolbar sheet below. */
+:root .pane-content--distinct .preview-host {
+  background: var(--split-preview-bg);
+}
+
 :root[data-theme="dark"] {
   color-scheme: dark;
   /* v4.6 warm-neutral dark surfaces (plan §2.4) — warm black, not pure #000 */

@@ -256,6 +256,8 @@ export const sv: I18n = {
     explorerFullNamesHint: 'Radbryter långa filnamn i sidofältsträdet i stället för att korta dem med ellips i mitten.',
     explorerShowHidden: 'Visa dolda filer',
     explorerShowHiddenHint: 'Visar filer och mappar som börjar med punkt (.git, .obsidian, .gitignore) i filträdet.',
+    distinctSplitPanes: 'Skilj redigeraren från förhandsvisningen',
+    distinctSplitPanesHint: 'I delad vy får förhandsvisningen en något annan bakgrund, så att de två rutorna inte läses som en enda bred kolumn.',
     markdownHardBreaks: 'Rendera enkla radbrytningar som radbrytningar',
     markdownHardBreaksHint: 'Som Typora: ett Enter-tryck ger en radbrytning i förhandsvisningen och alla exporter. Av = strikt Markdown (enkla radbrytningar slås ihop till ett stycke; tom rad avgränsar).',
     smartQuotes: 'Typografiska citattecken',
