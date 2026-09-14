@@ -78,6 +78,27 @@ export CARGO_TARGET_ARMV7_LINUX_ANDROIDEABI_LINKER="$TOOLCHAIN/armv7a-linux-andr
 export CARGO_TARGET_I686_LINUX_ANDROID_LINKER="$TOOLCHAIN/i686-linux-android24-clang"
 export CARGO_TARGET_X86_64_LINUX_ANDROID_LINKER="$TOOLCHAIN/x86_64-linux-android24-clang"
 
+# Android 15 uses 16 KB memory pages, and Play now REFUSES to save a release
+# whose native libraries are still aligned to 4 KB — for 4.12.0 it was an error
+# you could wave through, by 4.13.0 it greys out the Save button on the review
+# screen. The NDK's own prebuilts are fine; ours were not, because Rust links
+# `libapp_lib.so` itself and never passes the flag.
+#
+# These are env vars rather than `[target.*] rustflags` in .cargo/config.toml:
+# the Gradle plugin invokes cargo from a directory where that file is not on
+# the config search path, so the config version silently did nothing (verified
+# — the .so came out 0x1000 aligned anyway). The linker exports above already
+# take this route, so the flags travel with them.
+#
+# Verify after a build:
+#   llvm-readelf -l target/aarch64-linux-android/release/libapp_lib.so
+# every LOAD segment must read 0x4000.
+ANDROID_PAGE_FLAGS="-C link-arg=-Wl,-z,max-page-size=16384"
+export CARGO_TARGET_AARCH64_LINUX_ANDROID_RUSTFLAGS="$ANDROID_PAGE_FLAGS"
+export CARGO_TARGET_ARMV7_LINUX_ANDROIDEABI_RUSTFLAGS="$ANDROID_PAGE_FLAGS"
+export CARGO_TARGET_I686_LINUX_ANDROID_RUSTFLAGS="$ANDROID_PAGE_FLAGS"
+export CARGO_TARGET_X86_64_LINUX_ANDROID_RUSTFLAGS="$ANDROID_PAGE_FLAGS"
+
 cd app
 
 echo "==> SoloMD Android build ($([ "$DEBUG" -eq 1 ] && echo debug || echo release))"
