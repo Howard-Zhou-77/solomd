@@ -17,8 +17,9 @@ const MS_STORE = 'https://apps.microsoft.com/detail/9nxghk2ll1q4';
 //
 // The pin is the fallback, not the source of truth — a deploy must not fail
 // or block because Microsoft's catalogue is slow, so an unreachable endpoint
-// just leaves the last known-good value in place.
-const MS_STORE_VERSION_PIN = '4.12.0';
+// just leaves the last known-good value in place. Bump it with each store
+// submission; the live read above is what visitors normally see.
+const MS_STORE_VERSION_PIN = '4.13.0';
 
 async function readStoreVersion(): Promise<string> {
   const url =
