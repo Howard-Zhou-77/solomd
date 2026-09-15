@@ -120,6 +120,35 @@ find "$OUT_DIR" -name "*.apk" -o -name "*.aab" 2>/dev/null | sort | while read -
   echo "    $size  $f"
 done
 
+# Signing is not something to take on trust. Gradle emits an unsigned release
+# artifact without a word when the keystore env is missing, and the first thing
+# that notices is the Play Console, after a 39 MB upload, with 「所有上传的软件包
+# 都必须签名」. Assert it here, on every release artifact, before anyone ships.
+if [ "$DEBUG" -eq 0 ]; then
+  unsigned=0
+  while read -r f; do
+    if ! python3 - "$f" <<'PYCHECK'
+import sys, zipfile
+with zipfile.ZipFile(sys.argv[1]) as z:
+    sys.exit(0 if any(n.upper().endswith((".RSA", ".EC", ".DSA")) and n.startswith("META-INF/")
+                      for n in z.namelist()) else 1)
+PYCHECK
+    then
+      echo "    UNSIGNED: $f" >&2
+      unsigned=1
+    fi
+  done < <(find "$OUT_DIR" \( -name "*.apk" -o -name "*.aab" \) 2>/dev/null | sort)
+  if [ "$unsigned" -ne 0 ]; then
+    echo "" >&2
+    echo "ERROR: release artifacts above carry no JAR signature. They cannot be" >&2
+    echo "       uploaded to Play and cannot update an installed sideload." >&2
+    echo "       Check that ANDROID_KEYSTORE_PATH / ANDROID_KEYSTORE_PASS /" >&2
+    echo "       ANDROID_KEY_ALIAS / ANDROID_KEY_PASS reached gradle." >&2
+    exit 1
+  fi
+  echo "    (all release artifacts carry a JAR signature)"
+fi
+
 if [ "$DEBUG" -eq 0 ]; then
   echo ""
   echo "Next:"

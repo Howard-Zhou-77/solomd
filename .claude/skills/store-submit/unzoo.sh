@@ -277,12 +277,27 @@ print(b["x"], b["y"])' "$b") || exit 1
     post click "$(jbody x="${xy% *}" y="${xy#* }")" >/dev/null
     echo "clicked $sel at $xy" ;;
 
-  # Two-step on purpose. Setting files on the input does NOT start the upload:
-  # Angular/React consoles listen for `change`, which set_input_files does not
-  # fire. Without the dispatch the file sits in the input and nothing happens.
+  # Three steps, and the middle one is the whole point. `set_input_files` with
+  # trusted:true already fires a real `change` (isTrusted=true) itself — so the
+  # unconditional `dispatchEvent(new Event("change"))` this used to do handed
+  # the page a SECOND change for the same file. Uploaders that key their
+  # progress model off `change` then build a fresh model for the duplicate and
+  # render it, while the first upload is the one actually streaming bytes: the
+  # Play Console sat at "0 B of 39.4 MB" for a 39 MB AAB that was in fact
+  # uploading fine. So: arm a sentinel, set the files, and dispatch only if no
+  # native change arrived (older Unzoo builds, or an input swapped out by the
+  # framework).
   upload) need_tab || exit 1
     sel="${1:?usage: upload <input-selector> <file>}"; f="${2:?}"
     [ -f "$f" ] || { echo "no such file: $f" >&2; exit 1; }
+    post evaluate "$(eval_body "$sel" <<'JS'
+const e = document.querySelector(SEL);
+if (!e) return "no input";
+window.__unzooChangeSeen = false;
+e.addEventListener("change", () => { window.__unzooChangeSeen = true; }, {once: true});
+return "armed";
+JS
+)" > /dev/null
     post set_input_files "$(SEL="$sel" F="$f" TAB="$TAB" py '
 import json, os
 print(json.dumps({"selector": os.environ["SEL"],
@@ -294,10 +309,11 @@ d=json.load(sys.stdin)
 if not d.get("success"): sys.exit("set_input_files failed: "+json.dumps(d)[:300])
 print("files set")'
     post evaluate "$(eval_body "$sel" <<'JS'
+if (window.__unzooChangeSeen) return "native change fired (no dispatch)";
 const e = document.querySelector(SEL);
-if (!e) return "no input";
+if (!e) return "no input, and no native change — upload did not start";
 e.dispatchEvent(new Event("change", {bubbles: true}));
-return "change dispatched";
+return "no native change; dispatched one";
 JS
 )" | py '
 import json,sys
