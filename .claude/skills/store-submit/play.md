@@ -85,7 +85,9 @@ after a release build.
 Watch progress by polling text rather than screenshotting:
 
 ```bash
-while :; do $S/unzoo.sh text | grep -iE '正在上传|上传|%|已上传|错误' | head -3; sleep 10; done
+while :; do $S/unzoo.sh dom-text | grep -oE '正在上传|已上传|错误' | head -3; sleep 10; done
+# dom-text, not text — see SKILL.md. `text` empties out whenever the window is
+# not on screen, which is exactly the situation a polling loop runs in.
 ```
 
 ## Version codes
@@ -148,7 +150,7 @@ is blind to Play-only versions. See `reference_play_signing_and_tracks`.
 
 ```bash
 $S/unzoo.sh nav 'https://play.google.com/console/u/0/developers/8662341371772988450/app/4973693003540583322/tracks/production'
-$S/unzoo.sh text | head -40
+$S/unzoo.sh dom-text | head -40
 ```
 
 The release is live when the track shows the version code as 已发布/全面发布

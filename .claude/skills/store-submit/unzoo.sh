@@ -24,6 +24,7 @@
 #   UNZOO_TAB=$(unzoo.sh find-tab play.google.com/console)
 #   unzoo.sh nav https://play.google.com/console/...
 #   unzoo.sh text | head -60
+#   unzoo.sh dom-text | head -60      # use this one for unattended polling
 #   unzoo.sh eval 'document.title'
 #   unzoo.sh box 'button[aria-label="上传"]'      # center coords of an element
 #   unzoo.sh click 640 380
@@ -183,6 +184,21 @@ import json,sys
 r=json.load(sys.stdin).get("data",{}).get("result",{})
 if isinstance(r,dict) and not r.get("found"): sys.exit("page had no text")
 print(r.get("text","") if isinstance(r,dict) else r)' ;;
+
+  # ★ Layout-independent read. `text` (and page innerText generally) goes nearly
+  # empty when the browser window is not actually on screen: Chrome skips layout
+  # for an unpainted window, so innerText collapses to the loading splash while
+  # the page is fully rendered — a screenshot proves the content is there. Any
+  # unattended poller must use this, not `text`. Trade-off: textContent also
+  # returns text from hidden and collapsed elements, so match on markers you
+  # expect rather than asserting something is absent from the page.
+  dom-text) need_tab || exit 1
+    post evaluate "$(eval_body "" <<'JS'
+return document.body ? document.body.textContent : "";
+JS
+)" | py '
+import json,sys
+print(json.load(sys.stdin).get("data",{}).get("result") or "")' ;;
 
   html) need_tab || exit 1; post get-html "$(jbody)" | py '
 import json,sys

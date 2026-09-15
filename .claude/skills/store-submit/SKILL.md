@@ -126,3 +126,24 @@ curl -s --noproxy '*' http://127.0.0.1:9399/api/v1/openapi.json
 Note the `--noproxy '*'`: the local proxy mangles loopback calls, and it is
 also why store uploads through the browser stall — see
 `reference_release_upload_watchdog` in memory.
+
+## ★ `text` lies when the window is not on screen
+
+`unzoo.sh text` and any `innerText` read need layout, and Chrome skips layout
+for a browser window that is not actually being painted. The Play Console page
+then reads as ~550 characters of loading splash **while it is fully rendered** —
+a screenshot shows the real content. This is silent: no error, just a short
+string that looks like "still loading".
+
+Anything unattended (a watcher, a poll loop, a cron) must read
+`unzoo.sh dom-text`, which returns `document.body.textContent` and does not
+depend on layout. Two caveats that come with it:
+
+- `textContent` includes hidden and collapsed elements, so match on markers you
+  expect to *appear*; do not conclude something is gone because a string is
+  absent from a freshly loaded page.
+- Loading-splash text stays in `textContent` permanently, so judge "page ready"
+  by length plus a content anchor, never by the absence of the splash string.
+
+When a read disagrees with what you think is on screen, take a screenshot —
+that forces a paint and settles it.
