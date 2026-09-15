@@ -147,3 +147,18 @@ depend on layout. Two caveats that come with it:
 
 When a read disagrees with what you think is on screen, take a screenshot —
 that forces a paint and settles it.
+
+## ★ `eval` used to share one scope, and a collision looked like `null`
+
+Every `unzoo.sh eval` landed in the *same* top-level context, so the second
+`const b = ...` in a session threw "Identifier 'b' has already been declared" —
+and that throw came back as a plain `null` result, indistinguishable from "the
+selector matched nothing". It sent this session chasing imaginary DOM changes
+more than once, and it is visible in the page console as a stray SyntaxError
+that has nothing to do with the page.
+
+`eval` now wraps every expression in its own arrow scope, so redeclaration is
+impossible. Three input shapes are handled: a bare expression, several
+statements where you write your own `return`, and several statements where you
+do not (the last one is returned for you). A `;` inside a string literal is the
+one case that misfires — and it fails as a visible syntax error, not silence.

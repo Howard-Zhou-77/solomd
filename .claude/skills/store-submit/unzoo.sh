@@ -206,7 +206,26 @@ r=json.load(sys.stdin).get("data",{}).get("result",{})
 print(r.get("html","") if isinstance(r,dict) else r)' ;;
 
   # Result must be JSON-serializable — wrap objects in JSON.stringify yourself.
-  eval) need_tab || exit 1; post evaluate "$(jbody expression="${1:?usage: eval <js>}")" | py '
+  # ★ Every eval runs in the SAME top-level context, so a second `const x = ...`
+  # throws "Identifier 'x' has already been declared" — and the throw surfaces
+  # as a bare `null` result, not an error. Hours went into "why did this
+  # selector stop matching" that were really a redeclared `const`. Wrapping
+  # each expression in its own arrow scope makes that impossible.
+  eval) need_tab || exit 1
+    _js="${1:?usage: eval <js>}"
+    _js="${_js%;}"
+    case "$_js" in
+      *return*)
+        _js="(()=>{${_js}})()" ;;            # caller wrote its own return
+      *\;*)
+        # Multiple statements with no return: run all but the last, return the
+        # last. (A ';' inside a string literal would misfire here, but that
+        # fails loudly as a syntax error rather than silently.)
+        _js="(()=>{${_js%;*}; return ${_js##*;}})()" ;;
+      *)
+        _js="(()=>(${_js}))()" ;;            # a single expression
+    esac
+    post evaluate "$(jbody expression="$_js")" | py '
 import json,sys
 d=json.load(sys.stdin)
 if "error" in d: sys.exit("evaluate error: "+str(d["error"]))
