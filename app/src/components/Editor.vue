@@ -7,7 +7,7 @@ import { searchKeymap, search, openSearchPanel, getSearchQuery, setSearchQuery }
 import { syntaxHighlighting, defaultHighlightStyle, indentOnInput, bracketMatching } from '@codemirror/language';
 import { markdown, markdownLanguage } from '@codemirror/lang-markdown';
 import { cjkFriendlyEmphasis } from '../lib/cm-cjk-emphasis';
-import mermaid from 'mermaid';
+import { initMermaid } from '../lib/mermaid-lazy';
 import { LanguageDescription } from '@codemirror/language';
 import { javascript } from '@codemirror/lang-javascript';
 import { python } from '@codemirror/lang-python';
@@ -325,12 +325,6 @@ let plainComposing = false;
 let plainMermaidIdSeq = 0;
 const plainRenderCache = new Map<string, string>();
 
-mermaid.initialize({
-  startOnLoad: false,
-  securityLevel: 'strict',
-  theme: settings.theme === 'dark' ? 'dark' : 'default',
-});
-
 const plainLiveEnabled = computed(
   () => usePlainWindowsEditor && settings.viewMode === 'liveEdit' && props.tab.language === 'markdown',
 );
@@ -574,7 +568,18 @@ async function processPlainLiveRenderedBlocks() {
   }
 
   const mermaidBlocks = hostEl.querySelectorAll('.plain-block__render pre > code.language-mermaid');
+  // Configure on demand rather than at setup: the theme is read here, so a
+  // theme switch between renders is picked up, and a vault with no diagrams
+  // never loads the renderer at all.
+  const mermaid = mermaidBlocks.length
+    ? await initMermaid({
+        startOnLoad: false,
+        securityLevel: 'strict',
+        theme: settings.theme === 'dark' ? 'dark' : 'default',
+      })
+    : null;
   for (const block of Array.from(mermaidBlocks)) {
+    if (!mermaid) break;
     const pre = block.parentElement as HTMLElement | null;
     if (!pre || pre.dataset.rendered === '1') continue;
     pre.dataset.rendered = '1';
@@ -3025,11 +3030,9 @@ watch(plainLiveEnabled, () => {
 watch(
   () => [plainLiveEnabled.value, plainText.value, plainActiveBlock.value, settings.theme, settings.language],
   () => {
-    mermaid.initialize({
-      startOnLoad: false,
-      securityLevel: 'strict',
-      theme: settings.theme === 'dark' ? 'dark' : 'default',
-    });
+    // No mermaid.initialize here any more: the render pass configures it with
+    // the current theme itself, and doing it here would load the renderer for
+    // a document that has no diagrams.
     void processPlainLiveRenderedBlocks();
   },
   { flush: 'post' },

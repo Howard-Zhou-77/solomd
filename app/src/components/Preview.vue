@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, watch, onMounted, onBeforeUnmount, nextTick } from 'vue';
-import mermaid from 'mermaid';
+import { initMermaid } from '../lib/mermaid-lazy';
 import { openUrl } from '@tauri-apps/plugin-opener';
 import { renderMarkdown, extractImageRoot } from '../lib/markdown';
 import { plantumlSvgUrl } from '../lib/plantuml';
@@ -135,7 +135,6 @@ function onMathKeydown(e: KeyboardEvent) {
 
 let mermaidIdSeq = 0;
 
-mermaid.initialize({ startOnLoad: false, securityLevel: 'strict', theme: 'default' });
 
 const html = computed(() => {
   // #141 — establish a reactive dep on the hard-breaks toggle so flipping the
@@ -185,6 +184,12 @@ function processPlantuml() {
 async function processMermaid() {
   if (!host.value) return;
   const blocks = host.value.querySelectorAll('pre > code.language-mermaid');
+  if (!blocks.length) return;   // a note without diagrams never loads mermaid
+  const mermaid = await initMermaid({
+    startOnLoad: false,
+    securityLevel: 'strict',
+    theme: settings.theme === 'dark' ? 'dark' : 'default',
+  });
   for (const block of Array.from(blocks)) {
     const pre = block.parentElement as HTMLElement | null;
     if (!pre || pre.dataset.rendered === '1') continue;
@@ -276,12 +281,10 @@ async function processWhiteboards() {
   }
 }
 
-watch(
-  () => settings.theme,
-  (t) => {
-    mermaid.initialize({ startOnLoad: false, securityLevel: 'strict', theme: t === 'dark' ? 'dark' : 'default' });
-  }
-);
+// The theme is applied by processMermaid on each render pass, so there is
+// nothing to re-initialise here — and initialising eagerly would load the
+// renderer for a note that has no diagrams.
+watch(() => settings.theme, () => { void processMermaid(); });
 
 function overlayStrings(): OverlayStrings {
   return {

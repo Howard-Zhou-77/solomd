@@ -5,9 +5,15 @@ import { writeText, writeHtml, writeImage } from '@tauri-apps/plugin-clipboard-m
 import { Image } from '@tauri-apps/api/image';
 import { documentDir, join } from '@tauri-apps/api/path';
 import { isIOS } from '../lib/platform';
-import { markdownToDocxBlob } from '../lib/docx-export';
-import { markdownToPdfBlob } from '../lib/pdf-export';
-import { markdownToImageBlob } from '../lib/image-export';
+// Loaded per export rather than at startup. Between them these three pull in
+// `docx`, jsPDF + html2canvas and the mermaid renderer — megabytes that a user
+// who only opens a note to read it should never have to compile.
+const markdownToDocxBlob: typeof import('../lib/docx-export')['markdownToDocxBlob'] =
+  async (...args) => (await import('../lib/docx-export')).markdownToDocxBlob(...args);
+const markdownToPdfBlob: typeof import('../lib/pdf-export')['markdownToPdfBlob'] =
+  async (...args) => (await import('../lib/pdf-export')).markdownToPdfBlob(...args);
+const markdownToImageBlob: typeof import('../lib/image-export')['markdownToImageBlob'] =
+  async (...args) => (await import('../lib/image-export')).markdownToImageBlob(...args);
 import { renderMarkdown, extractImageRoot } from '../lib/markdown';
 import { exportDefaultPath } from '../lib/export-paths';
 import { useI18n } from '../i18n';

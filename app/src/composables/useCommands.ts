@@ -11,11 +11,9 @@ import { WebviewWindow } from '@tauri-apps/api/webviewWindow';
 import { openNewWindow } from '../lib/new-window';
 import { open as openFileDialog } from '@tauri-apps/plugin-dialog';
 import { writeText } from '@tauri-apps/plugin-clipboard-manager';
-import {
-  simplifiedToTraditional,
-  traditionalToSimplified,
-  pinyin,
-} from '../lib/chinese';
+// opencc-js + pinyin-pro are dictionaries, not code; loading them at startup
+// cost every launch for a command most users never run.
+const loadChineseConvert = () => import('../lib/chinese-convert');
 import { cleanAIArtifacts, stripMarkdownToPlain } from '../lib/clean-ai';
 import { openWelcomeTour } from '../lib/welcome-tour';
 import { formatMarkdown } from '../lib/markdown-format';
@@ -141,6 +139,14 @@ export function useCommands(): Command[] {
     toasts.success(successMsg);
   }
 
+  /** Same, for the transforms whose dictionaries are loaded on demand. */
+  async function transformActiveLazy(
+    pick: (m: typeof import('../lib/chinese-convert')) => (s: string) => string,
+    successMsg: string,
+  ) {
+    transformActive(pick(await loadChineseConvert()), successMsg);
+  }
+
   const all: Command[] = [
     { id: 'file.new', title: 'New Markdown File', shortcut: kb('file.new'), run: () => files.newFile() },
     { id: 'file.newText', title: 'New Plain Text File', shortcut: kb('file.newText'), run: () => files.newTextFile() },
@@ -249,12 +255,12 @@ export function useCommands(): Command[] {
       id: 'cn.s2t',
       title: 'Chinese: Simplified → Traditional',
       hint: 'Convert document content',
-      run: () => transformActive(simplifiedToTraditional, 'Converted to Traditional'),
+      run: () => transformActiveLazy((m) => m.simplifiedToTraditional, 'Converted to Traditional'),
     },
     {
       id: 'cn.t2s',
       title: 'Chinese: Traditional → Simplified',
-      run: () => transformActive(traditionalToSimplified, 'Converted to Simplified'),
+      run: () => transformActiveLazy((m) => m.traditionalToSimplified, 'Converted to Simplified'),
     },
     {
       id: 'cn.copyPinyin',
@@ -265,7 +271,7 @@ export function useCommands(): Command[] {
           toasts.warning('No active document');
           return;
         }
-        await writeText(pinyin(t.content));
+        await writeText((await loadChineseConvert()).pinyin(t.content));
         toasts.success('Pinyin copied to clipboard');
       },
     },

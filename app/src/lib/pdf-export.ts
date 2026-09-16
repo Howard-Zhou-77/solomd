@@ -12,8 +12,7 @@
  */
 
 // @ts-ignore — html2pdf.js ships no types
-import html2pdf from 'html2pdf.js';
-import mermaid from 'mermaid';
+import { initMermaid } from './mermaid-lazy';
 import { renderMarkdown, extractImageRoot } from './markdown';
 import type { ResolvedPdfOptions } from './pdf-options';
 import { rewriteImageUrls, rewriteLinkUrls } from './image-resolve';
@@ -168,8 +167,13 @@ const PDF_CSS = `
 let mermaidId = 0;
 
 async function processMermaidBlocks(container: HTMLElement) {
-  mermaid.initialize({ startOnLoad: false, securityLevel: 'strict', theme: 'default' });
   const blocks = container.querySelectorAll('pre > code.language-mermaid');
+  if (!blocks.length) return;   // no diagrams: never pay for the renderer
+  const mermaid = await initMermaid({
+    startOnLoad: false,
+    securityLevel: 'strict',
+    theme: 'default',
+  });
   for (const block of Array.from(blocks)) {
     const pre = block.parentElement as HTMLElement | null;
     if (!pre) continue;
@@ -430,6 +434,9 @@ export async function markdownToPdfBlob(
           ],
         },
       };
+      // html2pdf drags in jsPDF + html2canvas (~1 MB). Load it when an
+      // export actually happens, not on every cold start.
+      const html2pdf = (await import('html2pdf.js')).default;
       const worker = html2pdf().set(opts).from(page);
 
       const blob: Blob = await worker.outputPdf('blob');

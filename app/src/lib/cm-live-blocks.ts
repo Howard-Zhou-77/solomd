@@ -46,7 +46,7 @@ import {
 import { renderMarkdown, extractImageRoot } from './markdown';
 import { findHtmlBlockEnd } from './html-live-render';
 import { plantumlSvgUrl } from './plantuml';
-import mermaid from 'mermaid';
+import { initMermaid } from './mermaid-lazy';
 import 'katex/contrib/mhchem';
 import katex from 'katex';
 import {
@@ -68,6 +68,11 @@ async function ensureMermaidRendered(source: string): Promise<void> {
   mermaidSvgCache.set(source, { svg: null, error: null });
   try {
     const id = `cm-mmd-${++mermaidIdSeq}`;
+    const mermaid = await initMermaid({
+      startOnLoad: false,
+      securityLevel: 'strict',
+      theme: 'default',
+    });
     const { svg } = await mermaid.render(id, source);
     mermaidSvgCache.set(source, { svg, error: null });
   } catch (e) {
