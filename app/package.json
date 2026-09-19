@@ -42,6 +42,7 @@
     "@vscode/markdown-it-katex": "^1.1.2",
     "codemirror": "^6.0.2",
     "docx": "^9.6.1",
+    "dompurify": "3.3.3",
     "fflate": "0.8.2",
     "get-east-asian-width": "^1.6.0",
     "highlight.js": "^11.11.1",

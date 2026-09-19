@@ -104,6 +104,9 @@ importers:
       docx:
         specifier: ^9.6.1
         version: 9.6.1
+      dompurify:
+        specifier: 3.3.3
+        version: 3.3.3
       fflate:
         specifier: 0.8.2
         version: 0.8.2

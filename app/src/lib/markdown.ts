@@ -13,6 +13,7 @@ import mark from 'markdown-it-mark';
 import cjkFriendly from 'markdown-it-cjk-friendly';
 import yaml from 'js-yaml';
 import { numberEquations } from './equations';
+import { sanitizeRenderedHtml } from './sanitize-html';
 
 // NOTE: `@hedgedoc/markdown-it-task-lists` is installed but unusable here —
 // its compiled ESM entry does `import Token from 'markdown-it/lib/token.js'`
@@ -42,10 +43,19 @@ let lastFrontMatterRaw: string | null = null;
 
 // `html: true` lets users embed inline HTML like
 // `<img src=… style="zoom:50%;">`, `<details>`, `<sub>`, or table HTML for
-// edge cases markdown can't express. CSP in tauri.conf.json is `null` for
-// the local webview, but this app only ever renders the user's own files
-// — no untrusted input — so the security tradeoff is the same as Typora /
-// Obsidian (both ship with HTML on by default). See issue #54.
+// edge cases markdown can't express (issue #54) — that stays on, because
+// breaking it would break real documents.
+//
+// #304 corrects the assumption the old comment made here ("this app only ever
+// renders the user's own files — no untrusted input"): notes travel. Shared
+// vaults, downloaded .md files, Git-synced folders and AI output all end up in
+// this renderer, and `html: true` means `<img src=x onerror=…>` in any of them
+// used to execute inside the webview — where `__TAURI_INTERNALS__.invoke`
+// exposes the app's own file-read/write commands. So `renderMarkdown()` now
+// runs its output through `sanitizeRenderedHtml()` (DOMPurify, configured in
+// ./sanitize-html.ts to keep KaTeX MathML, inline SVG, highlight.js spans and
+// our data-* plumbing), and tauri.conf.json carries a CSP that blocks inline
+// script even if the sanitizer is bypassed.
 export const md = new MarkdownIt({
   html: true,
   linkify: true,
@@ -836,9 +846,12 @@ export function renderMarkdown(source: string, options?: { breaks?: boolean }): 
   if (lastFrontMatterRaw !== null) {
     const fmHtml = renderFrontMatterHtml(lastFrontMatterRaw);
     lastFrontMatterRaw = null;
-    return fmHtml + body;
+    body = fmHtml + body;
   }
-  return body;
+  // #304 — single choke point. Every consumer of rendered markdown (preview,
+  // the live-block editor, slideshow, PDF/image/HTML export) goes through
+  // here, so sanitizing the return value covers all of them at once.
+  return sanitizeRenderedHtml(body);
 }
 
 /**
