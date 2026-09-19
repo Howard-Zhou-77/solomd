@@ -354,6 +354,8 @@ export const pt: I18n = {
     slashCommandsEnabled: 'Comandos slash ( / ) — popup com blocos Markdown (título, lista, código, tabela…) ao digitar / no início da linha',
     customCssFixedWarning: 'Este tema define background-attachment: fixed no body — não é recomendado alterar background-attachment do body, pois causa cintilação em tela cheia ao arrastar a barra lateral direita.',
     customCss: 'Tema CSS personalizado',
+    customThemeOverrides: 'As cores vêm do tema personalizado “{name}”, por isso trocar o tema integrado pode não ter efeito visível.',
+    customThemeDisable: 'Desativar',
     pickCss: 'Escolher arquivo .css…',
     refreshCss: 'Recarregar CSS personalizado do disco',
     customCssLoaded: 'Tema CSS personalizado carregado',

@@ -352,6 +352,8 @@ export const de: I18n = {
     slashCommandsEnabled: 'Slash-Befehle ( / ) — Popup mit Markdown-Blöcken (Überschrift, Liste, Code, Tabelle…), wenn Sie / am Zeilenanfang eingeben',
     customCssFixedWarning: 'Dieses Theme setzt background-attachment: fixed auf body — es wird nicht empfohlen, background-attachment von body zu ändern, da dies beim Ziehen der rechten Seitenleiste zu Vollbild-Flackern führt.',
     customCss: 'Benutzerdefiniertes CSS-Design',
+    customThemeOverrides: 'Die Farben kommen vom benutzerdefinierten Design „{name}“ – ein Wechsel des integrierten Designs bleibt möglicherweise ohne sichtbare Wirkung.',
+    customThemeDisable: 'Deaktivieren',
     pickCss: '.css-Datei auswählen…',
     refreshCss: 'Custom CSS von der Festplatte neu laden',
     customCssLoaded: 'Benutzerdefiniertes CSS-Theme geladen',

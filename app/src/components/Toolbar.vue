@@ -58,10 +58,18 @@ const sheetOpen = ref(false);
 function toggleSheet(): void {
   sheetOpen.value = !sheetOpen.value;
 }
-// Collapse after any action inside the sheet — the sheet covers the document,
-// and leaving it open after a click reads as "nothing happened".
+// Collapse after any action — but only on a phone, where the sheet is tall,
+// covers the document, and leaving it open after a click reads as "nothing
+// happened".
+//
+// #282 — on a desktop window it must NOT collapse. The expanded strip there
+// costs one extra row (36px measured at 1366), and auto-collapsing meant
+// re-opening "⋯" before every single formatting action: "如果需要频繁的去
+// 点击…按钮的话，也是挺消耗耐心的". The row behaves like a toolbar now,
+// not like a menu: it
+// stays until the "✕" that opened it is pressed again.
 function onToolbarActivate(e: Event): void {
-  if (!sheetOpen.value) return;
+  if (!sheetOpen.value || !isNarrow.value) return;
   const el = e.target as HTMLElement | null;
   if (el?.closest('[data-phone-more]')) return;
   if (el?.closest('button, [role="menuitem"], a')) sheetOpen.value = false;
@@ -1330,9 +1338,17 @@ onBeforeUnmount(() => {
 
 .toolbar__spacer { flex: 1 1 0; min-width: 0; }
 /* Document title sits right after the SoloMD mark, mirroring a native window
-   title (VSCode / macOS Notes style). min-width:0 + flex-shrink:1 lets it
-   ellipsis-shrink on narrow windows instead of pushing tool groups off the
-   right edge (overrides `.toolbar > * { flex-shrink: 0 }`). */
+   title (VSCode / macOS Notes style). flex-shrink:1 lets it ellipsis-shrink
+   on narrow windows instead of pushing tool groups off the right edge
+   (overrides `.toolbar > * { flex-shrink: 0 }`).
+   #309 — "左侧界面文件名被遮挡". It was the ONLY shrinkable item in the row,
+   so on a window too narrow for the strip it absorbed the entire squeeze
+   before anything else gave: measured 8px wide at 1366 with Windows chrome,
+   which renders as a single clipped glyph ("U" for Untitled.md, "c" for
+   codex快捷键.md — both visible in the reporters' screenshots) and reads as
+   the filename being covered up. A floor stops the shrink while the text is
+   still a name; past that the strip overflows, which is honest and is
+   exactly the case the "⋯" control already announces. */
 .toolbar__title {
   font-size: 13px;
   font-weight: 500;
@@ -1343,7 +1359,7 @@ onBeforeUnmount(() => {
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 280px;
-  min-width: 0;
+  min-width: 88px;
   flex-shrink: 1;
   cursor: default;
 }

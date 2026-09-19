@@ -352,6 +352,8 @@ export const ja: I18n = {
     slashCommandsEnabled: 'スラッシュコマンド ( / ) — 新しい行で / を入力すると Markdown ブロック（見出し、リスト、コード、テーブル…）のポップアップが表示',
     customCssFixedWarning: 'このテーマは body の background-attachment を fixed に変更しています — body のこの属性は変更しないことをお勧めします。変更すると、右側カードをドラッグする際に全画面でちらつきます！',
     customCss: 'カスタム CSS テーマ',
+    customThemeOverrides: '配色はカスタムテーマ「{name}」が提供しているため、内蔵テーマを切り替えても見た目が変わらないことがあります。',
+    customThemeDisable: '無効にする',
     pickCss: '.css ファイルを選択…',
     refreshCss: 'カスタム CSS をディスクから再読み込み',
     customCssLoaded: 'カスタム CSS テーマを読み込みました',

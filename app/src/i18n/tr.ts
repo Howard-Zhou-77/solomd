@@ -352,6 +352,8 @@ export const tr: I18n = {
     slashCommandsEnabled: 'Eğik çizgi komutları ( / ) — yeni satırda / yazdığınızda Markdown bloklarıyla (Başlık, liste, kod, tablo…) açılır pencere',
     customCssFixedWarning: 'Bu tema body üzerinde background-attachment: fixed olarak değiştiriyor — body bu özelliğinin değiştirilmesi önerilmez, çünkü sağ kartı sürüklerken tam ekran titremeye neden olur!',
     customCss: 'Özel CSS Teması',
+    customThemeOverrides: 'Renkleri “{name}” özel teması sağlıyor, bu yüzden yerleşik temayı değiştirmek görünür bir fark yaratmayabilir.',
+    customThemeDisable: 'Devre dışı bırak',
     pickCss: '.css dosyası seç…',
     refreshCss: 'Özel CSS\u0027i diskten yeniden yükle',
     customCssLoaded: 'Özel CSS teması yüklendi',

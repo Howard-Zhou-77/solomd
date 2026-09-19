@@ -352,6 +352,8 @@ export const nl: I18n = {
     slashCommandsEnabled: 'Slash-opdrachten ( / ) — pop-up met Markdown-blokken (kop, lijst, code, tabel…) wanneer je / typt op een nieuwe regel',
     customCssFixedWarning: 'Dit thema wijzigt background-attachment: fixed op body — het wordt afgeraden body’s background-attachment te wijzigen, omdat dit bij het slepen van de rechterzijbalk tot volledig scherm flikkeren leidt.',
     customCss: 'Aangepast CSS-thema',
+    customThemeOverrides: 'De kleuren komen van het aangepaste thema ‘{name}’, dus een ander ingebouwd thema kiezen heeft mogelijk geen zichtbaar effect.',
+    customThemeDisable: 'Uitschakelen',
     pickCss: 'Kies .css-bestand…',
     refreshCss: 'Aangepaste CSS opnieuw laden vanaf schijf',
     customCssLoaded: 'Aangepast CSS-thema geladen',

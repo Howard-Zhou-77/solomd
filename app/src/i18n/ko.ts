@@ -352,6 +352,8 @@ export const ko: I18n = {
     slashCommandsEnabled: '슬래시 명령(/) — 새 줄에서 /를 입력하면 Markdown 블록(제목, 목록, 코드, 표 등) 팝업',
     customCssFixedWarning: '이 테마는 body의 background-attachment를 fixed로 변경했습니다 — body의 이 속성은 변경하지 않는 것이 좋습니다. 변경하면 오른쪽 카드를 드래그할 때 전체 화면이 깜빡입니다!',
     customCss: '사용자 지정 CSS 테마',
+    customThemeOverrides: '색상은 사용자 지정 테마 “{name}”이(가) 제공하므로 기본 테마를 바꿔도 화면이 달라지지 않을 수 있습니다.',
+    customThemeDisable: '사용 중지',
     pickCss: '.css 파일 선택…',
     refreshCss: '디스크에서 사용자 지정 CSS 다시 로드',
     customCssLoaded: '사용자 지정 CSS 테마가 로드되었습니다',

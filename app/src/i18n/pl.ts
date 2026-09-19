@@ -352,6 +352,8 @@ export const pl: I18n = {
     slashCommandsEnabled: 'Polecenia ukośnikowe ( / ) — popup z blokami Markdown (nagłówek, lista, kod, tabela…) po wpisaniu / w nowej linii',
     customCssFixedWarning: 'Ten motyw zmienia background-attachment: fixed na body — nie zaleca się zmieniania background-attachment na body, ponieważ powoduje to migotanie całego ekranu podczas przeciągania prawego panelu.',
     customCss: 'Niestandardowy motyw CSS',
+    customThemeOverrides: 'Kolory pochodzą z motywu niestandardowego „{name}”, więc zmiana motywu wbudowanego może nic nie zmienić.',
+    customThemeDisable: 'Wyłącz go',
     pickCss: 'Wybierz plik .css…',
     refreshCss: 'Przeładuj niestandardowy CSS z dysku',
     customCssLoaded: 'Załadowano niestandardowy motyw CSS',

@@ -352,6 +352,8 @@ export const en = {
     slashCommandsEnabled: 'Slash commands ( / ) — popup with Markdown blocks (Heading, list, code, table…) when you type / on a new line',
     customCssFixedWarning: 'This theme sets background-attachment: fixed on body — it’s not recommended to change body’s background-attachment, as it causes full-screen flicker when dragging the right sidebar.',
     customCss: 'Custom CSS Theme',
+    customThemeOverrides: 'The custom theme “{name}” is supplying the colours, so the built-in theme may have no visible effect.',
+    customThemeDisable: 'Turn it off',
     pickCss: 'Pick .css file…',
     refreshCss: 'Reload custom CSS from disk',
     customCssLoaded: 'Custom CSS theme loaded',

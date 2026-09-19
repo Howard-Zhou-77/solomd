@@ -493,8 +493,8 @@ button:disabled {
   overflow-x: hidden;
   flex-wrap: wrap;
   align-content: flex-start;
-  align-items: flex-start;
-  padding: 6px 4px 10px;
+  align-items: center;
+  padding: 4px 4px 6px;
   gap: 4px;
   border-bottom-width: 2px;
 }
@@ -502,30 +502,54 @@ button:disabled {
   flex-wrap: wrap;
   gap: 4px;
 }
-:root .toolbar.toolbar--sheet .toolbar__group > * {
+/* The desktop sheet is the SAME strip on two rows, so the flexible spacer
+   that centres the view-mode group in one row becomes a hole: measured 378px
+   of nothing in the middle of row two at 1366px, which is most of what #309
+   called "工具栏显示错乱". Nothing needs pushing apart once the row wraps. */
+:root .toolbar.toolbar--sheet .toolbar__spacer {
+  display: none;
+}
+
+/* ── The phone sheet: big targets, a label under every icon ────────────────
+   Only the phone gets these. A phone has no hover, folds ~23 buttons away
+   entirely, and needs finger-sized targets, so the label under each icon is
+   the only way to know what came back. */
+:root.narrow-viewport .toolbar.toolbar--sheet .toolbar__group > * {
   display: inline-flex;
 }
-:root .toolbar.toolbar--sheet .icon-btn {
+:root.narrow-viewport .toolbar.toolbar--sheet .icon-btn,
+:root.narrow-viewport .toolbar.toolbar--sheet .dropdown > .icon-btn {
   flex-direction: column;
   gap: 2px;
-  min-width: 84px;
+  min-width: 72px;
   min-height: 56px;
   padding: 6px 4px !important;
 }
-:root .toolbar.toolbar--sheet .icon-btn::after {
+:root.narrow-viewport .toolbar.toolbar--sheet .icon-btn::after {
   /* The title carries the shortcut too ("Save (Ctrl+S)"), so give it room. */
   content: attr(title);
   font-size: 10px;
   line-height: 1.1;
-  max-width: 80px;
+  max-width: 68px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   color: var(--text-muted);
 }
-/* The dropdown triggers keep their caret; don't let the label push it out. */
-:root .toolbar.toolbar--sheet .dropdown > .icon-btn {
-  min-width: 84px;
+
+/* ── The desktop sheet: same buttons, same size, just wrapped ──────────────
+   #282's reporter tried the labelled version on a 1366×768 screen and asked
+   for this instead: "个人认为图标和文字描述占据了过多的高度…如果按照原来
+   （单行）的图标大小，再增加一行就应该 ok 了。文字描述可以在鼠标悬停的时候
+   再显示。" He is right. A 56px-tall labelled tile turned a 36px bar into a
+   195px one — a quarter of his screen height — and every label was clipped
+   mid-word anyway ("打开文件 (Ctrl+…") because `attr(title)` carries the
+   shortcut. Two rows of the icons he already recognises cost 72px and read
+   as the toolbar he knows, and the names are still one hover away: every one
+   of these buttons already carries a `title`, which is the tooltip the
+   single-row bar has always used. */
+:root .toolbar.toolbar--sheet .icon-btn {
+  min-height: 28px;
 }
 /* Folded, "more" sits at the far right of the strip; expanded, that same
    auto margin would strand it alone on its own row. */
@@ -551,14 +575,6 @@ button:disabled {
 }
 :root .toolbar.toolbar--sheet.toolbar--win {
   padding-right: 142px;
-}
-/* The phone's tap targets stay bigger than the desktop sheet's. */
-:root.narrow-viewport .toolbar--phone-open .icon-btn,
-:root.narrow-viewport .toolbar--phone-open .dropdown > .icon-btn {
-  min-width: 72px;
-}
-:root.narrow-viewport .toolbar--phone-open .icon-btn::after {
-  max-width: 68px;
 }
 
 /* Status bar: the full segment list wraps onto a second line at phone widths.

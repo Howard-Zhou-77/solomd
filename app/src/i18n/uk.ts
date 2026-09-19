@@ -352,6 +352,8 @@ export const uk: I18n = {
     slashCommandsEnabled: 'Слеш-команди ( / ) — спливне меню з блоками Markdown (заголовок, список, код, таблиця…) при наборі / на новому рядку',
     customCssFixedWarning: 'Ця тема змінює background-attachment: fixed на body — не рекомендується змінювати цю властивість body, оскільки це призводить до миготіння на весь екран під час перетягування правої панелі!',
     customCss: 'Власна CSS-тема',
+    customThemeOverrides: 'Кольори надає власна тема «{name}», тому перемикання вбудованої теми може нічого не змінити.',
+    customThemeDisable: 'Вимкнути її',
     pickCss: 'Вибрати файл .css…',
     refreshCss: 'Перезавантажити кастомний CSS з диска',
     customCssLoaded: 'Кастомну CSS-тему завантажено',

@@ -352,6 +352,8 @@ export const sv: I18n = {
     slashCommandsEnabled: 'Snedstreckskommandon ( / ) — popup med Markdown-block (rubrik, lista, kod, tabell…) när du skriver / på en ny rad',
     customCssFixedWarning: 'Detta tema ändrar background-attachment: fixed på body — det rekommenderas inte att ändra body:s background-attachment, eftersom det orsakar helskärmsflimmer vid dragning av höger sidofält.',
     customCss: 'Anpassat CSS-tema',
+    customThemeOverrides: 'Färgerna kommer från det anpassade temat ”{name}”, så att byta inbyggt tema kanske inte syns.',
+    customThemeDisable: 'Stäng av det',
     pickCss: 'Välj .css-fil…',
     refreshCss: 'Ladda om anpassad CSS från disk',
     customCssLoaded: 'Anpassad CSS-tema laddad',

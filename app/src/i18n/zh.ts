@@ -352,6 +352,8 @@ export const zh: I18n = {
     vimMode: 'Vim 模式 — hjkl 移动、模式切换、ex 命令',
     slashCommandsEnabled: '斜杠命令 ( / ) —— 在空行输入 / 时弹出菜单，可快速插入标题、列表、代码块、表格等 Markdown 块',
     customCss: '自定义 CSS 主题',
+    customThemeOverrides: '配色目前由自定义主题「{name}」提供，切换内置主题可能不会有任何变化。',
+    customThemeDisable: '停用它',
     pickCss: '选择 .css 文件…',
     refreshCss: '从磁盘重新加载自定义 CSS',
     customCssLoaded: '自定义 CSS 主题已加载',

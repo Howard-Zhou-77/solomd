@@ -644,8 +644,27 @@ watchEffect(() => {
   invoke('save_language_preference', { lang: settings.language }).catch(() => {});
 });
 
+// #282 — nearly every marketplace theme declares its palette for `:root`,
+// `:root[data-theme="light"]` and `:root[data-theme="dark"]` in one rule, and
+// custom-theme.ts injects it after the app bundle, so it wins in every slot:
+// the attribute below still flips and not one colour moves. The reporter hit
+// this from the toolbar's light/dark button, where there is no room for an
+// explanation, and concluded the theme switch was broken. Say it once, when
+// he acts — never on startup, where it would be a scold about a choice he
+// already made.
+let themeAppliedOnce = false;
 watchEffect(() => {
   document.documentElement.setAttribute('data-theme', dataThemeFor(settings.theme));
+  const overriddenBy = settings.customCssPath;
+  if (!themeAppliedOnce) {
+    themeAppliedOnce = true;
+    return;
+  }
+  if (!overriddenBy) return;
+  const name = (overriddenBy.split(/[\\/]/).pop() || overriddenBy).replace(/\.css$/i, '');
+  void import('./stores/toasts').then(({ useToastsStore }) => {
+    useToastsStore().warning(t('settings.customThemeOverrides', { name }), 6000);
+  });
 });
 
 // v2.0: keep the Rust workspace index in sync with the active folder.

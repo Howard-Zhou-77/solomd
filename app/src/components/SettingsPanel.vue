@@ -245,6 +245,18 @@ const toasts = useToastsStore();
 const workspace = useWorkspaceStore();
 const rag = useRagStore();
 
+// #282 — a custom CSS theme takes the palette over completely (see the note
+// beside the theme dropdown). Name it from the file rather than the
+// marketplace manifest: the manifest is a network fetch that only happens
+// once the marketplace modal is opened, and a hand-picked .css file has no
+// manifest entry at all.
+const customThemeName = computed(() => {
+  const path = settings.customCssPath;
+  if (!path) return '';
+  const base = path.split(/[\\/]/).pop() || path;
+  return base.replace(/\.css$/i, '');
+});
+
 async function onToggleRagEnabled() {
   settings.toggleRagEnabled();
   if (settings.ragEnabled && workspace.currentFolder) {
@@ -467,6 +479,22 @@ function onSelectPdfFont(v: string) {
           >
             <option v-for="th in themeLabels" :key="th.value" :value="th.value">{{ th.label }}</option>
           </select>
+          <!-- #282 — the reporter picked "Dark (One Dark)" and the app stayed
+               light (his screenshots read #e6e5e0, which is Soft UI's --bg to
+               the byte). It was doing exactly what it was told: 14 of the 15
+               marketplace themes declare their palette for `:root,
+               :root[data-theme="light"], :root[data-theme="dark"]` in one
+               rule, and custom-theme.ts injects them after the app bundle —
+               so they win in BOTH slots and this dropdown stops changing a
+               single colour. Nothing said so: the custom-CSS control lives
+               under Advanced, three categories from here. Say it where the
+               choice is made, and make undoing it one click. -->
+          <p v-if="customThemeName" class="setting-hint setting-hint--warn">
+            {{ t('settings.customThemeOverrides', { name: customThemeName }) }}
+            <button type="button" class="hint-btn" @click="settings.setCustomCssPath('')">
+              {{ t('settings.customThemeDisable') }}
+            </button>
+          </p>
         </section>
 
         <section data-cat="basics">
@@ -1847,6 +1875,22 @@ section > label:not(:has(input)) {
 .setting-hint a {
   color: var(--accent);
   text-decoration: underline;
+}
+/* #282 — "your theme choice is not reaching the screen" is not a footnote;
+   it explains why the control right above it looks broken. */
+.setting-hint--warn {
+  margin-top: 6px;
+  color: var(--text-muted);
+}
+.hint-btn {
+  padding: 0;
+  margin-left: 4px;
+  font-size: 11px;
+  color: var(--accent);
+  background: none;
+  border: none;
+  text-decoration: underline;
+  cursor: pointer;
 }
 .css-path-row {
   display: flex;

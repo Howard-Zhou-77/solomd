@@ -352,6 +352,8 @@ export const fr: I18n = {
     slashCommandsEnabled: 'Commandes slash ( / ) — popup avec blocs Markdown (titre, liste, code, tableau…) lors de la saisie de / en début de ligne',
     customCssFixedWarning: 'Ce thème définit background-attachment: fixed sur body — il n’est pas recommandé de modifier background-attachment de body, car cela provoque un scintillement plein écran lors du glissement de la barre latérale droite.',
     customCss: 'Thème CSS personnalisé',
+    customThemeOverrides: 'Les couleurs viennent du thème personnalisé « {name} » : changer de thème intégré peut ne rien changer à l’écran.',
+    customThemeDisable: 'Le désactiver',
     pickCss: 'Choisir un fichier .css…',
     refreshCss: 'Recharger le CSS personnalisé depuis le disque',
     customCssLoaded: 'Thème CSS personnalisé chargé',
