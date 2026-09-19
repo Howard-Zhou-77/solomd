@@ -275,6 +275,12 @@ export const t = {
         },
       ],
     },
+    builtByClaude: {
+      heading: 'Built and maintained by Claude',
+      body: 'SoloMD is written, tested and released almost entirely by Claude Code, Anthropic\'s coding agent, working under a human maintainer who sets the direction and decides what ships. Issues and pull requests are triaged and answered by Claude too — the replies you get are written by an AI, not typed by a person.',
+      note: 'We say so because you should know what you are trusting with your notes, and because a reply can be confidently wrong. When one is, say so in the thread — that correction is the mechanism.',
+      cta: 'Read the code',
+    },
     principles: {
       heading: 'Built different — on purpose',
       lead: 'Five principles that decide what we ship and what we say no to.',
@@ -625,6 +631,12 @@ export const t = {
         },
       ],
     },
+    builtByClaude: {
+      heading: '由 Claude 开发与维护',
+      body: 'SoloMD 的代码、测试和发版几乎全部由 Anthropic 的编码智能体 Claude Code 完成，由一位人类维护者把握方向、决定发什么。issue 和 PR 也由 Claude 处理和回复——你收到的回复是 AI 写的，不是人一个字一个字敲的。',
+      note: '说明这件事，是因为你有权知道自己把笔记交给了什么，也因为回复可能信誓旦旦却是错的。遇到这种情况请直接在帖子里指出来——纠正机制就是这个。',
+      cta: '去读代码',
+    },
     principles: {
       heading: '我们刻意做得不一样',
       lead: '五条原则决定了我们做什么、不做什么。',
@@ -890,6 +902,12 @@ export const t = {
         { eyebrow: '開発者向け', icon: '🔌', headline: 'あなたのノートは既に MCP サーバー', desc: '1.5 MB の MCP sidecar が Claude Desktop、Cursor または任意の MCP クライアントに 8 つの読み取り専用ツールを公開。各保存があなたが所有する本物のローカル .git にスナップショット。WYSIWYG ライブ編集と `solomd` CLI で必要な時に GUI から離れられます。', bullets: ['MCP サーバー内蔵 —— stdio のみ、ネットワークポートなし', 'AutoGit バージョン履歴 (libgit2 同梱、自動 push なし)', 'WYSIWYG ライブ編集モード + 4 ウェイビュー切替', '`solomd open / new / list / search` CLI、1 行インストーラ'] },
       ],
     },
+    builtByClaude: {
+      heading: 'Claude が開発・メンテナンス',
+      body: 'SoloMD のコード、テスト、リリースはそのほとんどを Anthropic のコーディングエージェント Claude Code が行い、方向性と公開可否は人間のメンテナが決めています。Issue や Pull Request の対応・返信も Claude です——受け取る返信は人ではなく AI が書いています。',
+      note: 'お伝えするのは、自分のノートを何に預けるか知る権利があるから、そして返信が自信たっぷりに間違っていることがあるからです。その時はスレッドで指摘してください——それが訂正の仕組みです。',
+      cta: 'コードを読む',
+    },
     principles: {
       heading: '意図的に違う作り',
       lead: '何を出して何に NO と言うかを決める 5 つの原則。',
@@ -1131,6 +1149,12 @@ export const t = {
         { eyebrow: '연구자용', icon: '🔍', headline: '키워드가 아닌 단락을 찾기', desc: '시맨틱 검색이 vault 전체에서 의미로 단락을 순위화. Wikilinks와 backlinks가 노트를 연결, @citekey 인용은 Pandoc까지 이어지고, 14개 AI Provider가 요청 시 번역 또는 요약 —— 키는 OS 키체인에 머무릅니다.', bullets: ['로컬 시맨틱 검색, 모델 파일 없음, 네트워크 호출 없음', 'Wikilinks + backlinks 패널, 그래프 뷰 비대 없음', '@citekey 인용이 Pandoc 통해 엔드투엔드 보존', '번역 / 요약 / 설명을 위한 14개 BYOK AI Provider'] },
         { eyebrow: '개발자용', icon: '🔌', headline: '당신의 노트는 이미 MCP 서버', desc: '1.5 MB MCP sidecar가 Claude Desktop, Cursor 또는 어떤 MCP 클라이언트에 8개 읽기 전용 도구를 노출. 모든 저장이 본인 소유의 진짜 로컬 .git에 스냅샷. WYSIWYG 라이브 편집과 `solomd` CLI로 원할 때 GUI에서 벗어날 수 있습니다.', bullets: ['MCP 서버 내장 —— stdio만, 네트워크 포트 없음', 'AutoGit 버전 기록 (libgit2 동봉, 자동 push 안 함)', 'WYSIWYG 라이브 편집 모드 + 4-way 뷰 전환기', '`solomd open / new / list / search` CLI, 한 줄 인스톨러'] },
       ],
+    },
+    builtByClaude: {
+      heading: 'Claude가 개발하고 유지보수합니다',
+      body: 'SoloMD의 코드, 테스트, 릴리스는 대부분 Anthropic의 코딩 에이전트 Claude Code가 수행하며, 방향과 출시 여부는 사람 메인테이너가 결정합니다. 이슈와 풀 리퀘스트도 Claude가 분류하고 답변합니다 — 받으시는 답변은 사람이 아니라 AI가 쓴 것입니다.',
+      note: '밝히는 이유는 자신의 노트를 무엇에 맡기는지 알 권리가 있기 때문이고, 답변이 자신만만하게 틀릴 수 있기 때문입니다. 그럴 때는 스레드에서 지적해 주세요 — 그것이 교정 장치입니다.',
+      cta: '코드 보기',
     },
     principles: {
       heading: '의도적으로 다르게 만든',
@@ -1374,6 +1398,12 @@ export const t = {
         { eyebrow: 'Für Entwickler', icon: '🔌', headline: 'Ihre Notizen sind bereits ein MCP-Server', desc: 'Ein 1,5 MB MCP-Sidecar stellt 8 Nur-Lese-Tools für Claude Desktop, Cursor oder jeden MCP-Client bereit. Jedes Speichern macht Snapshots in ein echtes lokales .git, das Ihnen gehört. WYSIWYG Live-Bearbeitung und ein `solomd` CLI halten Sie aus dem GUI heraus, wenn Sie wollen.', bullets: ['MCP-Server gebündelt — nur stdio, kein Netzwerkport', 'AutoGit Versionsverlauf (libgit2 vendoriert, nie auto-gepusht)', 'WYSIWYG Live-Bearbeitungsmodus + 4-Wege-Ansichts-Wechsler', '`solomd open / new / list / search` CLI, Ein-Zeilen-Installer'] },
       ],
     },
+    builtByClaude: {
+      heading: 'Von Claude entwickelt und gepflegt',
+      body: 'SoloMD wird fast vollständig von Claude Code geschrieben, getestet und veröffentlicht, dem Coding-Agenten von Anthropic — unter einem menschlichen Maintainer, der die Richtung vorgibt und entscheidet, was ausgeliefert wird. Auch Issues und Pull Requests beantwortet Claude: Die Antworten schreibt eine KI, kein Mensch.',
+      note: 'Wir sagen es, weil Sie wissen sollen, wem Sie Ihre Notizen anvertrauen — und weil eine Antwort selbstbewusst falsch sein kann. Wenn das passiert, sagen Sie es im Thread. Genau diese Korrektur ist der Mechanismus.',
+      cta: 'Code lesen',
+    },
     principles: {
       heading: 'Anders gebaut — absichtlich',
       lead: 'Fünf Prinzipien, die entscheiden, was wir liefern und wozu wir Nein sagen.',
@@ -1615,6 +1645,12 @@ export const t = {
         { eyebrow: 'Pour les chercheurs', icon: '🔍', headline: 'Trouver le paragraphe, pas juste le mot-clé', desc: 'La recherche sémantique classe les paragraphes par sens à travers votre vault entier. Wikilinks et backlinks connectent les notes, citations @citekey passent à travers Pandoc, et 14 providers IA traduisent ou résument à la demande — les clés restent dans votre trousseau OS.', bullets: ['Recherche sémantique locale, pas de fichier modèle, pas d\'appel réseau', 'Panneau wikilinks + backlinks, pas de bloat de vue graphique', 'Citations @citekey préservées de bout en bout via Pandoc', '14 providers IA BYOK pour traduire / résumer / expliquer'] },
         { eyebrow: 'Pour les développeurs', icon: '🔌', headline: 'Vos notes sont déjà un serveur MCP', desc: 'Un sidecar MCP de 1,5 Mo expose 8 outils en lecture seule à Claude Desktop, Cursor ou tout client MCP. Chaque enregistrement fait des instantanés dans un vrai .git local que vous possédez. Édition live WYSIWYG et un CLI `solomd` vous gardent hors du GUI quand vous voulez.', bullets: ['Serveur MCP empaqueté — stdio uniquement, pas de port réseau', 'Historique de versions AutoGit (libgit2 vendorisé, jamais auto-poussé)', 'Mode édition live WYSIWYG + bascule de vue 4-voies', 'CLI `solomd open / new / list / search`, installateur en une ligne'] },
       ],
+    },
+    builtByClaude: {
+      heading: 'Développé et maintenu par Claude',
+      body: 'SoloMD est écrit, testé et publié presque entièrement par Claude Code, l\'agent de programmation d\'Anthropic, sous un mainteneur humain qui fixe le cap et décide de ce qui sort. Les issues et les pull requests sont aussi traitées par Claude : les réponses sont écrites par une IA, pas par une personne.',
+      note: 'Nous le disons parce que vous devez savoir à quoi vous confiez vos notes, et parce qu\'une réponse peut être assurée et fausse. Dans ce cas, dites-le dans le fil — c\'est cette correction qui fait le mécanisme.',
+      cta: 'Lire le code',
     },
     principles: {
       heading: 'Construit différemment — exprès',
@@ -1858,6 +1894,12 @@ export const t = {
         { eyebrow: 'Para desarrolladores', icon: '🔌', headline: 'Tus notas ya son un servidor MCP', desc: 'Un sidecar MCP de 1,5 MB expone 8 herramientas de solo lectura a Claude Desktop, Cursor o cualquier cliente MCP. Cada guardado hace instantánea en un .git local real que tú posees. Edición live WYSIWYG y un CLI `solomd` te mantienen fuera del GUI cuando quieres.', bullets: ['Servidor MCP empaquetado — solo stdio, sin puerto de red', 'Historial de versiones AutoGit (libgit2 incluido, nunca auto-pusheado)', 'Modo edición live WYSIWYG + cambiador de vista de 4 vías', 'CLI `solomd open / new / list / search`, instalador en una línea'] },
       ],
     },
+    builtByClaude: {
+      heading: 'Desarrollado y mantenido por Claude',
+      body: 'SoloMD lo escribe, prueba y publica casi por completo Claude Code, el agente de programación de Anthropic, bajo un mantenedor humano que marca el rumbo y decide qué se publica. Las issues y los pull requests también los responde Claude: las respuestas las escribe una IA, no una persona.',
+      note: 'Lo contamos porque debes saber a qué le confías tus notas, y porque una respuesta puede ser rotunda y errónea. Cuando ocurra, dilo en el hilo: esa corrección es el mecanismo.',
+      cta: 'Leer el código',
+    },
     principles: {
       heading: 'Construido diferente — a propósito',
       lead: 'Cinco principios que deciden lo que enviamos y a lo que decimos no.',
@@ -2099,6 +2141,12 @@ export const t = {
         { eyebrow: 'Para pesquisadores', icon: '🔍', headline: 'Encontre o parágrafo, não só a palavra-chave', desc: 'Busca semântica classifica parágrafos por significado em todo seu vault. Wikilinks e backlinks conectam notas, citações @citekey passam até o Pandoc, e 14 providers IA traduzem ou resumem sob demanda — chaves ficam no seu chaveiro OS.', bullets: ['Busca semântica local, sem arquivo de modelo, sem chamada de rede', 'Painel wikilinks + backlinks, sem bloat de visualização de grafo', 'Citações @citekey preservadas ponta-a-ponta via Pandoc', '14 providers IA BYOK para traduzir / resumir / explicar'] },
         { eyebrow: 'Para desenvolvedores', icon: '🔌', headline: 'Suas notas já são um servidor MCP', desc: 'Um sidecar MCP de 1,5 MB expõe 8 ferramentas somente leitura ao Claude Desktop, Cursor ou qualquer cliente MCP. Cada salvamento faz snapshot em um .git local real que você possui. Edição ao vivo WYSIWYG e um CLI `solomd` te mantêm fora do GUI quando quiser.', bullets: ['Servidor MCP empacotado — apenas stdio, sem porta de rede', 'Histórico de versões AutoGit (libgit2 incorporado, nunca auto-pushado)', 'Modo edição ao vivo WYSIWYG + alternador de visualização 4-vias', 'CLI `solomd open / new / list / search`, instalador em uma linha'] },
       ],
+    },
+    builtByClaude: {
+      heading: 'Desenvolvido e mantido pelo Claude',
+      body: 'O SoloMD é escrito, testado e lançado quase inteiramente pelo Claude Code, o agente de programação da Anthropic, sob um mantenedor humano que define a direção e decide o que é publicado. Issues e pull requests também são respondidos pelo Claude: as respostas são escritas por uma IA, não por uma pessoa.',
+      note: 'Dizemos isso porque você deve saber a que está confiando suas notas, e porque uma resposta pode ser confiante e errada. Quando for, diga no tópico — essa correção é o mecanismo.',
+      cta: 'Ler o código',
     },
     principles: {
       heading: 'Construído diferente — de propósito',
@@ -2342,6 +2390,12 @@ export const t = {
         { eyebrow: 'Per sviluppatori', icon: '🔌', headline: 'Le tue note sono già un server MCP', desc: 'Un sidecar MCP da 1,5 MB espone 8 strumenti sola lettura a Claude Desktop, Cursor o qualsiasi client MCP. Ogni salvataggio fa snapshot in un .git locale reale che possiedi. Modifica live WYSIWYG e un CLI `solomd` ti tengono fuori dal GUI quando vuoi.', bullets: ['Server MCP empacchettato — solo stdio, nessuna porta di rete', 'Cronologia versioni AutoGit (libgit2 incluso, mai auto-pushato)', 'Modalità modifica live WYSIWYG + commutatore vista 4-vie', 'CLI `solomd open / new / list / search`, installer in una riga'] },
       ],
     },
+    builtByClaude: {
+      heading: 'Sviluppato e mantenuto da Claude',
+      body: 'SoloMD è scritto, testato e rilasciato quasi interamente da Claude Code, l\'agente di programmazione di Anthropic, sotto un manutentore umano che decide la direzione e cosa pubblicare. Anche issue e pull request le gestisce Claude: le risposte le scrive un\'IA, non una persona.',
+      note: 'Lo diciamo perché hai diritto di sapere a cosa affidi i tuoi appunti, e perché una risposta può essere sicura di sé e sbagliata. Quando succede, scrivilo nel thread: quella correzione è il meccanismo.',
+      cta: 'Leggi il codice',
+    },
     principles: {
       heading: 'Costruito diverso — apposta',
       lead: 'Cinque principi che decidono cosa spediamo e a cosa diciamo no.',
@@ -2583,6 +2637,12 @@ export const t = {
         { eyebrow: 'Dla badaczy', icon: '🔍', headline: 'Znajdź akapit, nie tylko słowo kluczowe', desc: 'Wyszukiwanie semantyczne szereguje akapity według znaczenia w całym twoim vaultcie. Wikilinks i backlinks łączą notatki, cytowania @citekey przechodzą aż do Pandoca, a 14 dostawców AI tłumaczy lub streszcza na żądanie — klucze pozostają w keychainie systemu.', bullets: ['Lokalne wyszukiwanie semantyczne, bez plików modelu, bez wywołań sieciowych', 'Panel wikilinks + backlinks, bez bloatu widoku grafu', 'Cytowania @citekey zachowane end-to-end przez Pandoca', '14 dostawców AI BYOK do tłumaczenia / streszczania / wyjaśniania'] },
         { eyebrow: 'Dla deweloperów', icon: '🔌', headline: 'Twoje notatki są już serwerem MCP', desc: 'Sidecar MCP o rozmiarze 1,5 MB udostępnia 8 narzędzi tylko do odczytu Claude Desktop, Cursorowi i dowolnemu klientowi MCP. Każdy zapis to snapshot w prawdziwym lokalnym .git, którego jesteś właścicielem. Edycja live WYSIWYG i CLI `solomd` trzymają cię z dala od GUI, kiedy tego chcesz.', bullets: ['Dołączony serwer MCP — tylko stdio, żadnych portów sieciowych', 'Historia wersji AutoGit (libgit2 dołączony, nigdy nie pushowany automatycznie)', 'Tryb edycji live WYSIWYG + przełącznik widoku 4-kierunkowy', 'CLI `solomd open / new / list / search`, instalator w jednej linii'] },
       ],
+    },
+    builtByClaude: {
+      heading: 'Tworzone i utrzymywane przez Claude',
+      body: 'SoloMD jest pisane, testowane i wydawane niemal w całości przez Claude Code, agenta programistycznego Anthropic, pod okiem ludzkiego opiekuna, który wyznacza kierunek i decyduje, co trafia do wydania. Zgłoszenia i pull requesty również obsługuje Claude — odpowiedzi pisze SI, a nie człowiek.',
+      note: 'Mówimy o tym, bo powinieneś wiedzieć, czemu powierzasz swoje notatki, i bo odpowiedź bywa pewna siebie i błędna. Gdy tak się stanie, napisz o tym w wątku — ta korekta jest całym mechanizmem.',
+      cta: 'Przeczytaj kod',
     },
     principles: {
       heading: 'Zbudowane inaczej — z premedytacją',
@@ -2826,6 +2886,12 @@ export const t = {
         { eyebrow: 'Voor developers', icon: '🔌', headline: 'Je notities zijn al een MCP-server', desc: 'Een 1,5 MB MCP-sidecar exposeert 8 read-only tools aan Claude Desktop, Cursor of elke MCP-client. Elke save snapshot naar een echte lokale .git die jij bezit. Live WYSIWYG-bewerken en een `solomd` CLI houden je uit de GUI wanneer je dat wilt.', bullets: ['Gebundelde MCP-server — alleen stdio, geen netwerkpoort', 'AutoGit-versiegeschiedenis (libgit2 inbegrepen, nooit auto-gepusht)', 'Live WYSIWYG-bewerkmodus + 4-weg view-switcher', 'CLI `solomd open / new / list / search`, installer in één regel'] },
       ],
     },
+    builtByClaude: {
+      heading: 'Gebouwd en onderhouden door Claude',
+      body: 'SoloMD wordt vrijwel volledig geschreven, getest en uitgebracht door Claude Code, de coding-agent van Anthropic, onder een menselijke maintainer die de richting bepaalt en beslist wat er uitgaat. Issues en pull requests beantwoordt Claude ook: de antwoorden zijn door een AI geschreven, niet door een mens.',
+      note: 'We zeggen het omdat je hoort te weten waaraan je je notities toevertrouwt, en omdat een antwoord zelfverzekerd fout kan zijn. Zeg het dan in de thread — die correctie ís het mechanisme.',
+      cta: 'Lees de code',
+    },
     principles: {
       heading: 'Anders gebouwd — met opzet',
       lead: 'Vijf principes die bepalen wat we wel en niet shippen.',
@@ -3067,6 +3133,12 @@ export const t = {
         { eyebrow: 'Araştırmacılar için', icon: '🔍', headline: 'Yalnızca anahtar kelimeyi değil, paragrafı bul', desc: 'Anlamsal arama, tüm vault\'unda paragrafları anlama göre sıralar. Wikilink\'ler ve backlink\'ler notları birbirine bağlar, @citekey alıntıları Pandoc\'a kadar geçer ve 14 AI sağlayıcısı talep üzerine çevirir veya özetler — anahtarlar OS keychain\'inde kalır.', bullets: ['Yerel anlamsal arama, model dosyası yok, ağ çağrısı yok', 'Wikilink + backlink paneli, graph görünümü şişkinliği yok', '@citekey alıntıları Pandoc aracılığıyla uçtan uca korunur', 'Çevirmek / özetlemek / açıklamak için 14 BYOK AI sağlayıcısı'] },
         { eyebrow: 'Geliştiriciler için', icon: '🔌', headline: 'Notların zaten bir MCP sunucusu', desc: '1,5 MB MCP sidecar\'ı, Claude Desktop\'a, Cursor\'a veya herhangi bir MCP istemcisine 8 salt okunur araç sunar. Her kayıt, sahip olduğun gerçek yerel bir .git\'te snapshot alır. Canlı WYSIWYG düzenleme ve `solomd` CLI seni istediğin zaman GUI\'nin dışında tutar.', bullets: ['Paketlenmiş MCP sunucusu — yalnızca stdio, ağ portu yok', 'AutoGit sürüm geçmişi (libgit2 dahili, asla otomatik push edilmez)', 'Canlı WYSIWYG düzenleme modu + 4 yönlü görünüm değiştirici', '`solomd open / new / list / search` CLI, tek satırlık yükleyici'] },
       ],
+    },
+    builtByClaude: {
+      heading: 'Claude tarafından geliştiriliyor',
+      body: 'SoloMD neredeyse tamamen Anthropic\'in kodlama ajanı Claude Code tarafından yazılıyor, test ediliyor ve yayınlanıyor; yönü belirleyen ve neyin çıkacağına karar veren bir insan sorumlu var. Issue\'ları ve pull request\'leri de Claude yanıtlıyor: yanıtları bir yapay zekâ yazıyor, bir insan değil.',
+      note: 'Bunu söylüyoruz çünkü notlarınızı neye emanet ettiğinizi bilmelisiniz ve çünkü bir yanıt kendinden emin biçimde yanlış olabilir. Öyle olduğunda konu başlığında belirtin — o düzeltme mekanizmanın ta kendisi.',
+      cta: 'Kodu okuyun',
     },
     principles: {
       heading: 'Farklı inşa edildi — kasten',
@@ -3310,6 +3382,12 @@ export const t = {
         { eyebrow: 'För utvecklare', icon: '🔌', headline: 'Dina noter är redan en MCP-server', desc: 'En 1,5 MB MCP-sidecar exponerar 8 läsverktyg till Claude Desktop, Cursor eller vilken MCP-klient som helst. Varje sparning blir en snapshot i en riktig lokal .git som du äger. WYSIWYG live-edit och en `solomd` CLI håller dig borta från GUI:t när du vill.', bullets: ['Medföljande MCP-server — endast stdio, ingen nätverksport', 'AutoGit-versionshistorik (libgit2 medföljer, auto-pushas aldrig)', 'WYSIWYG live-edit-läge + 4-vägs vy-växlare', 'CLI `solomd open / new / list / search`, enradigs installer'] },
       ],
     },
+    builtByClaude: {
+      heading: 'Byggd och underhållen av Claude',
+      body: 'SoloMD skrivs, testas och släpps nästan helt av Claude Code, Anthropics kodagent, under en mänsklig underhållare som sätter riktningen och avgör vad som släpps. Issues och pull requests besvaras också av Claude: svaren är skrivna av en AI, inte av en människa.',
+      note: 'Vi säger det för att du bör veta vad du anförtror dina anteckningar, och för att ett svar kan vara självsäkert fel. När det är det, säg det i tråden — den rättelsen är hela mekanismen.',
+      cta: 'Läs koden',
+    },
     principles: {
       heading: 'Byggd annorlunda — med flit',
       lead: 'Fem principer som avgör vad vi levererar och vad vi säger nej till.',
@@ -3551,6 +3629,12 @@ export const t = {
         { eyebrow: 'Для дослідників', icon: '🔍', headline: 'Знайдіть абзац, а не лише ключове слово', desc: 'Семантичний пошук ранжує абзаци за змістом по всьому вашому vault. Wikilinks і backlinks з\'єднують нотатки, цитати @citekey передаються до Pandoc, а 14 AI-провайдерів перекладають або підсумовують на запит — ключі залишаються у системному сховищі ключів.', bullets: ['Локальний семантичний пошук, без файлів моделі, без мережевих викликів', 'Панель wikilinks + backlinks, без bloat-у графічного перегляду', 'Цитати @citekey зберігаються наскрізно через Pandoc', '14 BYOK AI-провайдерів для перекладу / підсумування / пояснення'] },
         { eyebrow: 'Для розробників', icon: '🔌', headline: 'Ваші нотатки вже є MCP-сервером', desc: 'MCP-sidecar 1,5 МБ виставляє 8 інструментів тільки для читання Claude Desktop, Cursor або будь-якому MCP-клієнту. Кожне збереження робить snapshot у справжньому локальному .git, яким володієте ви. Live WYSIWYG-редагування і CLI `solomd` тримають вас поза GUI, коли потрібно.', bullets: ['Вбудований MCP-сервер — лише stdio, без мережевих портів', 'Історія версій AutoGit (libgit2 включено, ніколи не пушиться автоматично)', 'Live WYSIWYG-режим редагування + 4-сторонній перемикач переглядів', 'CLI `solomd open / new / list / search`, однорядковий інсталятор'] },
       ],
+    },
+    builtByClaude: {
+      heading: 'Розробляється й підтримується Claude',
+      body: 'SoloMD майже повністю пише, тестує та випускає Claude Code, програмувальний агент Anthropic, під керівництвом людини-мейнтейнера, яка задає напрям і вирішує, що виходить. Issue та pull request також коментує Claude — відповіді написані ШІ, а не людиною.',
+      note: 'Кажемо це, бо ви маєте знати, чому довіряєте свої нотатки, і бо відповідь буває впевненою та хибною. Коли так стається, напишіть про це в обговоренні — саме ця поправка і є механізмом.',
+      cta: 'Читати код',
     },
     principles: {
       heading: 'Створено інакше — навмисно',
