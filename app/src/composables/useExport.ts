@@ -15,6 +15,9 @@ const markdownToPdfBlob: typeof import('../lib/pdf-export')['markdownToPdfBlob']
 const markdownToImageBlob: typeof import('../lib/image-export')['markdownToImageBlob'] =
   async (...args) => (await import('../lib/image-export')).markdownToImageBlob(...args);
 import { renderMarkdown, extractImageRoot } from '../lib/markdown';
+// Tiny shim: the mermaid bundle itself stays behind a dynamic import inside
+// it, so touching this module costs nothing at startup.
+import { initMermaid } from '../lib/mermaid-lazy';
 import { exportDefaultPath } from '../lib/export-paths';
 import { useI18n } from '../i18n';
 import { rewriteLinkUrls, rewriteImageUrls } from '../lib/image-resolve';
@@ -337,6 +340,10 @@ function getEditorSelectionMd(content?: string): string | null {
   return text.trim() ? text : null;
 }
 
+// Mermaid ids must be unique per render across the whole session — mermaid
+// keys internal state off them and reusing one yields an empty diagram.
+let printMermaidId = 0;
+
 export function useExport() {
   const tabs = useTabsStore();
   const toasts = useToastsStore();
@@ -490,6 +497,51 @@ export function useExport() {
   }
 
   /**
+   * #301 — render ```mermaid fences inside the print overlay.
+   *
+   * `renderMarkdown()` leaves a mermaid fence as a plain
+   * `<pre><code class="language-mermaid">` — the Preview pane and the image
+   * PDF path (`markdownToPdfBlob`) each turn that into an SVG afterwards, but
+   * the text PDF path never did, so "导出为 PDF（文字）" printed the diagram
+   * source verbatim. Same treatment as those two, and it must finish BEFORE
+   * the print dialog opens or the platform captures a half-rendered overlay.
+   *
+   * The `.mermaid-block` / `.mermaid-error` classes are the ones Preview's
+   * global `:where(.preview-content) …` rules target, and the overlay content
+   * div already carries `preview-content`, so the SVG is centered and
+   * width-clamped on paper without any extra CSS.
+   */
+  async function renderPrintMermaid(container: HTMLElement, dark: boolean) {
+    const blocks = container.querySelectorAll('pre > code.language-mermaid');
+    if (!blocks.length) return;   // no diagrams: never load the renderer
+    const mermaid = await initMermaid({
+      startOnLoad: false,
+      securityLevel: 'strict',
+      theme: dark ? 'dark' : 'default',
+    });
+    for (const block of Array.from(blocks)) {
+      const pre = block.parentElement as HTMLElement | null;
+      if (!pre) continue;
+      const code = (block.textContent || '').trim();
+      const id = `print-mmd-${++printMermaidId}`;
+      try {
+        const { svg } = await mermaid.render(id, code);
+        const wrap = document.createElement('div');
+        wrap.className = 'mermaid-block';
+        wrap.innerHTML = svg;
+        pre.replaceWith(wrap);
+      } catch (e) {
+        // A broken diagram must not abort the print — show the reason where
+        // the diagram would have been, exactly like the Preview pane does.
+        const err = document.createElement('pre');
+        err.className = 'mermaid-error';
+        err.textContent = `Mermaid error: ${(e as Error).message}`;
+        pre.replaceWith(err);
+      }
+    }
+  }
+
+  /**
    * Open the system print dialog with the rendered markdown.
    * Builds a hidden iframe with the same HTML template used for export,
    * Print: mount a print-only overlay with the rendered markdown, then ask
@@ -525,8 +577,14 @@ export function useExport() {
       overlay.id = 'solomd-print-overlay';
       document.body.appendChild(overlay);
     }
-    overlay.innerHTML = `<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
-<div class="solomd-print-content preview-content">${body}</div>`;
+    // KaTeX styling comes from the bundle — `main.ts` imports
+    // `katex/dist/katex.min.css` and its selectors (`.katex`, `.katex-display`)
+    // are global, so the overlay picks them up even though it lives outside
+    // `#app`. This used to <link> katex.min.css off jsDelivr, which meant every
+    // print silently hit the network: math came out unstyled with no
+    // connection, and an offline-first app with no telemetry leaked a request
+    // per print.
+    overlay.innerHTML = `<div class="solomd-print-content preview-content">${body}</div>`;
     // Print palette, independent of the app theme. The overlay sits outside
     // #app but still inherits :root's tokens, so a dark theme used to put a
     // dark code slab on paper. `follow` adds no class and keeps that.
@@ -560,6 +618,29 @@ export function useExport() {
       overlay?.remove();
       styleEl?.remove();
     };
+
+    // #301 — swap mermaid fences for SVGs and WAIT for them. This has to
+    // happen after the print-theme class is on the overlay (so the diagram
+    // palette matches the paper) and before `print_webview`, because the
+    // native print sheet snapshots the DOM as it finds it.
+    // Query by class rather than firstElementChild: that only happened to be
+    // the content div because the <link> above was just removed, and the next
+    // person to prepend anything to the overlay would silently skip mermaid.
+    const printContent = overlay.querySelector<HTMLElement>('.solomd-print-content');
+    if (printContent) {
+      try {
+        await renderPrintMermaid(
+          printContent,
+          printTheme === 'dark' || (printTheme === 'follow' && settings.theme === 'dark'),
+        );
+      } catch (e) {
+        // Only reachable if the mermaid chunk itself fails to load (per-diagram
+        // failures are handled inside). Printing the document with the fences
+        // still as code beats refusing to print at all — and #115 says we must
+        // never leave the overlay + `body.solomd-printing` mounted.
+        console.error('[print] mermaid render failed', e);
+      }
+    }
 
     // Give KaTeX / images a tick to apply layout before print.
     await new Promise((r) => setTimeout(r, 200));
