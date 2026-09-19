@@ -13,6 +13,17 @@
 
 ![SoloMD Editor](web/public/demo/solomd-demo.svg)
 
+> ### 🤖 Byggd och underhållen av Claude
+>
+> SoloMD skrivs, testas och släpps nästan helt av **Claude Code**, Anthropics kodagent,
+> under en mänsklig underhållare som sätter riktningen och avgör vad som släpps. **Issues
+> och pull requests hanteras och besvaras också av Claude** — svaren du får här är skrivna
+> av en AI, inte knappade av en människa.
+>
+> Vi säger det av två skäl. Du bör veta vad du anförtror dina anteckningar: koden är MIT och
+> helt offentlig, läs den. Och när ett svar är självsäkert fel — det händer — säg det i
+> tråden. Den rättelsen är hela mekanismen.
+
 Dina anteckningar bor i en mapp. **SoloMD är editorn ovanpå — med en förstklassig agent-yta i editorn och MCP-slutpunkten som Claude Code / Cursor kan styra utifrån.** Samma `.md`-filer. Chatta med ditt valv. Schemalägg recipes som körs när du inte sitter vid tangentbordet. Lämna över samma valv till vilken MCP-klient som helst.
 
 Byggd på Tauri 2 + Vue 3 + CodeMirror 6. Universell macOS-dmg ~32 MB. Gratis, MIT, ingen prenumeration, inga SoloMD-värdade servrar. Dina anteckningar, AI-nycklar, embeddings-index och Git-historik stannar alla på din maskin.

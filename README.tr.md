@@ -13,6 +13,17 @@
 
 ![SoloMD Editor](web/public/demo/solomd-demo.svg)
 
+> ### 🤖 Claude tarafından geliştirilip sürdürülüyor
+>
+> SoloMD neredeyse tamamen Anthropic'in kodlama ajanı **Claude Code** tarafından yazılıyor,
+> test ediliyor ve yayınlanıyor; yönü belirleyen ve neyin çıkacağına karar veren bir insan
+> sorumlu var. **Issue'lar ve pull request'ler de Claude tarafından ele alınıp
+> yanıtlanıyor** — burada aldığınız yanıtları bir yapay zekâ yazıyor, bir insan yazmıyor.
+>
+> Bunu iki nedenle söylüyoruz. Notlarınızı neye emanet ettiğinizi bilmelisiniz: kod MIT
+> lisanslı ve tamamı açık, okuyun. Ve bir yanıt kendinden emin biçimde yanlış olduğunda —
+> ki oluyor — bunu konu başlığında belirtin. O düzeltme mekanizmanın ta kendisi.
+
 Notlarınız bir klasörde yaşar. **SoloMD bunun üzerindeki editördür — editör içi birinci sınıf bir ajan yüzeyi ve Claude Code / Cursor'un dışarıdan sürebileceği MCP uç noktası ile birlikte.** Aynı `.md` dosyaları. Vault'unuzla sohbet edin. Klavyenin başında olmadığınızda çalışan tarifler planlayın. Aynı vault'u herhangi bir MCP istemcisine devredin.
 
 Tauri 2 + Vue 3 + CodeMirror 6 üzerine kuruludur. Universal macOS dmg ~32 MB. Ücretsiz, MIT, abonelik yok, SoloMD tarafından barındırılan sunucu yok. Notlarınız, AI anahtarlarınız, embedding indeksiniz ve Git geçmişinizin tamamı makinenizde kalır.

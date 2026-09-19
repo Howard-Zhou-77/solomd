@@ -14,6 +14,16 @@
 
 ![SoloMD 编辑器](web/public/demo/solomd-demo.svg)
 
+> ### 🤖 由 Claude 开发与维护
+>
+> SoloMD 的代码、测试和发版几乎全部由 Anthropic 的编码智能体 **Claude Code** 完成，
+> 由一位人类维护者把握方向、决定发什么。**issue 和 PR 也是由 Claude 处理和回复的**
+> —— 你在这里收到的回复是 AI 写的，不是人一个字一个字敲的。
+>
+> 说明这件事有两个理由。你有权知道自己把笔记交给了什么：代码是 MIT 的，全部公开，
+> 欢迎自己读。另外，当回复信誓旦旦却是错的时候——这确实会发生——请直接在帖子里指出来，
+> 纠正机制就是这个。
+
 你的笔记是一个文件夹。**SoloMD 既是上面的编辑器、内置一等公民的 Agent 面板，也是 Claude Code / Cursor 直接能从外部驱动的 MCP 端点。** 同样的 `.md` 文件。在编辑器里跟你的 vault 对话；定时跑 recipe 不用守在键盘前；同一个 vault 还能交给任何 MCP 客户端。
 
 基于 Tauri 2 + Vue 3 + CodeMirror 6 构建。Mac universal dmg ~32 MB。免费 / MIT / 无订阅 / 无 SoloMD 服务器。笔记、AI key、嵌入索引、git 历史，全部留在你自己的机器上。

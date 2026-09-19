@@ -13,6 +13,17 @@
 
 ![Editor SoloMD](web/public/demo/solomd-demo.svg)
 
+> ### 🤖 Sviluppato e mantenuto da Claude
+>
+> SoloMD è scritto, testato e rilasciato quasi interamente da **Claude Code**, l'agente di
+> programmazione di Anthropic, sotto un manutentore umano che decide la direzione e cosa
+> pubblicare. **Anche issue e pull request sono smistate e gestite da Claude**: le risposte
+> che ricevi qui le scrive un'IA, non le digita una persona.
+>
+> Lo diciamo per due motivi. Hai diritto di sapere a cosa affidi i tuoi appunti: il codice è
+> MIT ed è tutto pubblico, leggilo. E quando una risposta è sicura di sé ma sbagliata —
+> succede — scrivilo nel thread. Quella correzione è il meccanismo.
+
 Le tue note vivono in una cartella. **SoloMD è l'editor sopra — con una superficie agent di prima classe dentro l'editor e l'endpoint MCP che Claude Code / Cursor possono pilotare dall'esterno.** Stessi file `.md`. Chatta con il tuo vault. Pianifica recipes che girano quando non sei alla tastiera. Consegna lo stesso vault a qualsiasi client MCP.
 
 Costruito su Tauri 2 + Vue 3 + CodeMirror 6. Universal macOS dmg ~32 MB. Gratis, MIT, senza abbonamento, senza server ospitati da SoloMD. Le tue note, chiavi AI, indice di embeddings e cronologia git restano tutti sulla tua macchina.
