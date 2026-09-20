@@ -1,4 +1,11 @@
 import { createApp, defineAsyncComponent } from 'vue';
+
+// On Linux, WebKitGTK's rAF may stall when the AppImage bundles an older
+// libwayland-client against Mesa 25+ (see raf-fallback.ts). macOS (WKWebView)
+// and Windows (WebView2) are unaffected — skip the probe entirely there.
+if (/Linux/.test(navigator.userAgent)) {
+  import('./lib/raf-fallback').then(m => m.installRAFFallback());
+}
 import { createPinia } from 'pinia';
 import App from './App.vue';
 import './styles/cjk-font.css';
